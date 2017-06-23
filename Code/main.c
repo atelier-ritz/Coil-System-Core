@@ -10,7 +10,6 @@
 
 int main (int argc, char *argv[])
 {
-    //a s sdf
 //	printf("sum of 1 and 2 is %i.\n",sumt(1,2));
 //	glutInit(&argc, argv);
 
