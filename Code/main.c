@@ -38,7 +38,7 @@ int main (int argc, char *argv[])
 
     videoWindow   	= GTK_IMAGE  (gtk_builder_get_object (builder, "videoWindow"));
 	  videoWindow2   	= GTK_IMAGE  (gtk_builder_get_object (builder, "videoWindow2"));
-
+ 
     label_info_type  = GTK_LABEL (gtk_builder_get_object (builder, "label_info_type"));
 	  label_info_plane = GTK_LABEL (gtk_builder_get_object (builder, "label_info_plane"));
 	  label_info_angle = GTK_LABEL (gtk_builder_get_object (builder, "label_info_angle"));
