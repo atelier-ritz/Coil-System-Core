@@ -1,18 +1,16 @@
-#include <gtk/gtk.h>        //declares functions, types and macros required by GTK+ applications.
+////////////////////////////////////////////////////////////////////////////////////////
+// File      : main.c
+// Function  : Call GUI
+// Edited by :
+////////////////////////////////////////////////////////////////////////////////////////
+#include <gtk/gtk.h>
 #include <pthread.h>
-//#include <glade/glade.h>
 #include <gdk/gdk.h>
 #include "callbacks.h"    // Question: How to connect callbacks.c to the GUI?
-//#include "coilDisplay.h"
-//#include "pololu.h"
-//#include "vision.h"
 #include "s826_subroutine.h"
 
 int main (int argc, char *argv[])
 {
-//	printf("sum of 1 and 2 is %i.\n",sumt(1,2));
-//	glutInit(&argc, argv);
-
     s826_init();
 
     GtkBuilder *builder;

@@ -1,24 +1,21 @@
+////////////////////////////////////////////////////////////////////////////////////////
+// File      : vision.c
+// Function  : Camera-related subroutines
+// Edited by : Jiachen, Zhe
+////////////////////////////////////////////////////////////////////////////////////////
 #ifndef TEMPFEEDING
 #define TEMPFEEDING
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Header Files
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 #include <pthread.h>
 #include <gtk/gtk.h>
-#include "constantValue.h"     // Values of the constants used
-#include "s826_subroutine.h"   // s826 board subroutines
-#include "vision.h"            // Camera related subroutines
-#include "coilFieldControl.h"  //
+#include "constantValue.h"
+#include "s826_subroutine.h"
+#include "vision.h"
+#include "coilFieldControl.h"  
 #include "AccelStepper.h"
 #include <stdio.h>
 #include <math.h>
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Function Declaration
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // discrete bending control
 void init_discrete_bending(void);
 void stop_discrete_bending(void);
@@ -62,7 +59,6 @@ void init_rotational_field_h (void);
 void stop_rotational_field_h (void);
 void set_fab_heading_h (int d);
 void set_rotationalfield_go_h (int d);
-
 
 // sawtooth mode thread related functions
 void init_sawtooth_mode(void);

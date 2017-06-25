@@ -27,7 +27,6 @@
 //#define FOCULUS2 0x00097eff40300046 //I know, crazy right, years in between getting foculus cameras and the ID numbers are only 22 cameras apart
 //#define PIKE 0x000a470110071013
 
-
 class FWcamera
 {
 public:
