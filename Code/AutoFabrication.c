@@ -1,8 +1,10 @@
+////////////////////////////////////////////////////////////////////////////////////////
+// File      : AutoFabrication.c
+// Function  : For Zhe's fabrication project.
+// Edited by : Zhe
+////////////////////////////////////////////////////////////////////////////////////////
 #include "AutoFabrication.h"
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Variables
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // discrete bending variables
 bool flag_discrete_bending = false, discrete_go = false;
 float kp = 0.08, ki = 0.2, destination_angle = 0.0;
@@ -79,9 +81,6 @@ float field_mag_fab = 14.0;
 float field_x, field_y, field_z, field_mag, field_angle = -90.0;
 float field_angle_m = 0.0; // field_angle in magnet coordinate
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Pins
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // pin assignments for motor driver
 const int enablePin = 0;
 const int MS1 = 1;
@@ -92,52 +91,39 @@ const int dirPin = 5;
 
 AccelStepper Stepper1 (1, stepPin, dirPin); //make Stepper1 object
 
-
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Functions
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // discrete bending thread (torque angle control, constant magnitude)
-void* discrete_bending_thread (void*threadid)
-{
+void* discrete_bending_thread (void*threadid){
     printf("--magnet control thread started\n");
     int counterP = -1, counterC;
     float mangle_d;fab_status
-	bool discrete_set = false;
-	float discrete_P, discrete_I, discrete_PI;
-	float temp_discrete_field, discrete_field, discrete_field_s;
-	bool discrete_satr = false;
+	  bool discrete_set = false;
+	  float discrete_P, discrete_I, discrete_PI;
+    float temp_discrete_field, discrete_field, discrete_field_s;
+	  bool discrete_satr = false;
     float des, dif;
     FILE *magnetangle=fopen("magnetangle.txt","w");
     float mangle_history[20]; // storing historic magnet angles
     float mangle_error[20]; //storing historic errors
     int discrete_counter;
     int temp_discrete_done; // 1: discrete_done = true; 0: false.
-	//set_field_xyz(1, 0.0);
+  	//set_field_xyz(1, 0.0);
     // quick reflection after over shoot
     // torque angle > 180 and <270 = torque < -90
-    while (flag_discrete_bending)
-    {
+    while (flag_discrete_bending){
         usleep(16666); // 60 Hz
         mangle_d = m_a;
         des = destination_angle;
-
-        if (discrete_go)
-        {
-            if (!discrete_set)
-            {
+        if (discrete_go){
+            if (!discrete_set){
                 discrete_field_s = field_angle_m;
                 discrete_P = 0;
                 discrete_I = 0;
                 discrete_set = true;
             }
-
             discrete_counter++;
-            if ( discrete_counter == 12 ) // update historical angle at 10 Hz
-            {
+            if ( discrete_counter == 12 ){ // update historical angle at 10 Hz
                 discrete_counter = 0;
-                for (int i=0; i<19; i++)
-                {
+                for (int i=0; i<19; i++){
                     mangle_history[i] = mangle_history[i+1];
                     mangle_error[i] = fabs(des-mangle_history[i]);
                 }
@@ -148,40 +134,28 @@ void* discrete_bending_thread (void*threadid)
                     discrete_done = true;
                 else
                     discrete_done = false;
-
                 printf("%d\n", discrete_done);
             }
             dif = angleMinus(des, mangle_d);
-
-            if (!discrete_satr)
-            {
+            if (!discrete_satr){
                 discrete_P = kp * dif;
                 discrete_I = ki * dif/60.0 + discrete_I;
                 discrete_PI = discrete_P + discrete_I;
             }
-
             temp_discrete_field = anglePlus(discrete_field_s, discrete_PI);
-
-            if ( angleMinus(temp_discrete_field, mangle_d) > 90 ) // torque angle < 90 degrees
-            {
+            if ( angleMinus(temp_discrete_field, mangle_d) > 90 ){ // torque angle < 90 degrees
                 discrete_field = anglePlus(mangle_d, 90);
                 discrete_satr = true;
             }
-            else if ( angleMinus(temp_discrete_field, mangle_d) < -90 )
-            {
+            else if ( angleMinus(temp_discrete_field, mangle_d) < -90 ){
                 discrete_field = anglePlus(mangle_d, -90);
                 discrete_satr = true;
-            }
-            else
-            {
+            }else{
                 discrete_field = anglePlus(discrete_field_s, discrete_PI);
                 discrete_satr = false;
             }
-
             set_field_polar (14.0, magnet2field_angle(discrete_field));
-        }
-        else
-        {
+        }else{
             discrete_set = false;
             discrete_done = false;
         }

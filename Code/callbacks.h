@@ -1,4 +1,3 @@
-// (08-05)
 #ifndef CALLB
 #define CALLB
 
@@ -10,35 +9,13 @@
 #include <pthread.h>
 #include <sys/time.h>
 #include <gdk/gdkkeysyms.h>
-
-//#include <s826_subroutine.h>
-//#include <s826api.h>
-
-//#include <signal.h>
-//#include <GL/glut.h>
-//#include <SDL/SDL.h>
-//#include <opencv/cv.h>
-//#include <opencv/highgui.h>
-//#include <string>
-
-//#include "magnetLowLevel.h"
-//#include "LXRTclass.h"
-//#include "coilDisplay.h"
-//#include "magnetControl.h"
-//#include "NetController.h"
-//#include "callbacksTS.h"
 #include "vision.h"
-//#include "FWcamera.h"
 #include "s826_subroutine.h"
-
 #include "coilFieldControl.h"
 #include "AutoFabrication.h"
 #include "twistField.h"
 
-//#define PI 3.14159265
-
 //extern Mat img_m_color;
-
 //using namespace std;
 
 void* controlThread(void*);
@@ -46,7 +23,7 @@ void* drawThread(void*);
 
 extern "C" {  //use to fix C++ name mangling problem, when compiling with g++ instead of gcc. see http://cboard.cprogramming.com/cplusplus-programming/146982-gtkplus-cplusplus-compiler-signal-handlers.html
 
-    void on_field_drawingArea_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data);
+  void on_field_drawingArea_expose_event (GtkWidget *widget, GdkEventExpose *event, gpointer data);
 	void on_window_destroy (GtkWidget *widget, gpointer data);
 	void on_tButton_draw_field_toggled (GtkToggleButton *togglebutton, gpointer data);
 	void on_current_clicked(GtkWidget *widget, gpointer data);
@@ -188,5 +165,3 @@ extern "C" {  //use to fix C++ name mangling problem, when compiling with g++ in
 }
 
 #endif
-
-
