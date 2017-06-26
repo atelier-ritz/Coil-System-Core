@@ -14,7 +14,8 @@
 // Output: errcode.
 
 bool flag_range_changed = true;
-int prev_range = 2;
+int prev_range = 8;
+int count_range = 16;
 
 int s826_init(void)
 {
@@ -115,8 +116,14 @@ int s826_aoPin(uint chan,uint rangeCode,double outputV)
 	}
 
 	if(rangeCode!=prev_range){
-        prev_range = rangeCode;
+        
+        if(count_range != 0){
+        	count_range--;
+        }else{
         flag_range_changed = true;
+        count_range = 16; //# of channels
+       
+    	}
 	}
 
 	//printf("miniV is %i and rangeV is %i\n",miniV,rangeV);
@@ -128,7 +135,10 @@ int s826_aoPin(uint chan,uint rangeCode,double outputV)
 
 	if(flag_range_changed){//added to fix issue with high frequency noise (resetting of amp after programming)
         X826(S826_DacRangeWrite(BOARD,chan,rangeCode,0));   // Program DAC output range.
-        flag_range_changed = false;
+        if(count_range == 0){
+       		flag_range_changed = false;
+  			prev_range = rangeCode;
+		}
 	}
 
 	X826(S826_DacDataWrite(BOARD,chan,setpoint,0));     // Set the desired output voltage.
