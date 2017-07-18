@@ -12,7 +12,7 @@
 |0|6|X - Out left|5.003|
 |6|7|Not Used|Not Used|
 
-![alt text](https://github.com/micronanolab/Coil-System-Core/tree/master/Misc/Coil connection.png)
+![alt text](https://github.com/micronanolab/Coil-System-Core/tree/master/Misc/coil_connection.png)
 
 ## Introduction
 
