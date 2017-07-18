@@ -1,7 +1,8 @@
 # Coil-System-Core
 
 ## Connection
-  aoPin     Cable #              Coil           Comp. mT/V
+
+  aoPin     Cable #             Coil            Comp. mT/V
 
     2          1              Z - Mid top         5.003
 
