@@ -12,41 +12,63 @@ static float coil_current_voltage[3] = {0,0,0};  //static float coil_current_x =
 
 int coilCurrentClear(void)
 {
+    uint rangeCode = 2;   // 2: -5 ~ +5 V.
     coil_current_voltage[0] = 0;
     coil_current_voltage[1] = 0;
     coil_current_voltage[2] = 0;
-    //update_coil_current();
-    uint aoRange = 2;   // 2: -5 ~ +5 V.
-    s826_aoPin( 0 , aoRange, 0);
-    s826_aoPin( 1 , aoRange, 0);
-    s826_aoPin( 2 , aoRange, 0);
+    s826_aoPin( 0 , rangeCode, 0);
+    s826_aoPin( 1 , rangeCode, 0);
+    s826_aoPin( 2 , rangeCode, 0);
+    s826_aoPin( 3 , rangeCode, 0);
+    s826_aoPin( 4 , rangeCode, 0);
+    s826_aoPin( 5 , rangeCode, 0);
 }
 
-int set_coil_current_to (int index, float d)
-{
+int set_coil_current_to (int index, float d) {
+//  s826_aoPin(aoPin, 2, signal pin voltage output)
+//  * amplifiers running in current mode
+//  aoPin     Cable #              Coil           Comp. mT/V
+//    2          1              Z - Mid top         5.003
+//    5          2              Z - Mid bot         4.433
+//    4          3              Y - Inn right       5.143
+//    1          4              Y - Inn left        5.024
+//    3          5              X - Out right       4.879
+//    0          6              X - Out left        5.003
+//    6          7
     coil_current_voltage[index] = d;
-    switch (index)
-    {
-        case 0:
-            s826_aoPin(0, 2, d/5.003);    // coil 1.0    x-left
-            s826_aoPin(3, 2, d/4.879);    // coil 1.1    x-right
+    switch (index) {
+        case 0: // X
+            s826_aoPin(0, 2, d/5.003);
+            s826_aoPin(3, 2, d/4.879);
             break;
-        case 1:
-            s826_aoPin(1, 2, d/5.024);    // coil 2.0     y-left
-            s826_aoPin(5, 2, d/4.433);    //  coil 3      y-right
+        case 1: // Y
+            s826_aoPin(1, 2, d/5.024);
+            s826_aoPin(4, 2, d/5.143);
             break;
-        case 2:
-            s826_aoPin(4, 2, d/5.143);    // coil 2.1     z-serial
+        case 2: // Z
+            s826_aoPin(2, 2, d/5.024);
+            s826_aoPin(5, 2, d/4.433);
             break;
     }
 }
 
 void set_field_xyz_2 (float bx, float by, float bz, float dbx, float dby, float dbz) {
-    s826_aoPin(3, 2, bx*0.18754719386756); //x-right
+  s826_aoPin(3, 2, bx*0.18754719386756); //x-right
+ 	s826_aoPin(0, 2, bx*0.18754719386756); //x-left
+
+ 	s826_aoPin(1, 2, by*0.19230420653328); //y-left
+ 	s826_aoPin(4, 2, by*0.19230420653328); //y-right
+
+ 	s826_aoPin(2, 2, bz*0.191929507962791); //z-up
+ 	s826_aoPin(5, 2, bz*0.191929507962791); //z-down
+
+
+
+    /*s826_aoPin(3, 2, bx*0.18754719386756); //x-right
     s826_aoPin(0, 2, bx*0.18754719386756); //x-left
     s826_aoPin(1, 2, by*-0.19230420653328); //y-left
     s826_aoPin(5, 2, by*-0.19230420653328); //y-right
-    s826_aoPin(4, 2, bz*-0.191929507962791); //z-serial
+    s826_aoPin(4, 2, bz*-0.191929507962791); //z-serial*/
 }
 
 void resetCoils(void) {

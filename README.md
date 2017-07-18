@@ -1,5 +1,15 @@
 # Coil-System-Core
 
+## Connection
+  aoPin     Cable #              Coil           Comp. mT/V
+    2          1              Z - Mid top         5.003
+    5          2              Z - Mid bot         4.433
+    4          3              Y - Inn right       5.143
+    1          4              Y - Inn left        5.024
+    3          5              X - Out right       4.879
+    0          6              X - Out left        5.003
+    6          7
+
 ## Introduction
 
 "Coil-System-Core" is a program to drive the 6-input coil system that is mainly written in C.  
@@ -32,7 +42,7 @@ Function
 
 Thread
 
-1.	A thread name must start with Thread, e.g., Thread_run_bangbang_controller() 
+1.	A thread name must start with Thread, e.g., Thread_run_bangbang_controller()
 
 2.	Follow the rules of a function name.
 
