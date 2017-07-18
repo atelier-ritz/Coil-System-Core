@@ -2,21 +2,15 @@
 
 ## Connection
 
-  aoPin     Cable #             Coil            Comp. mT/V
-
-    2          1              Z - Mid top         5.003
-
-    5          2              Z - Mid bot         4.433
-
-    4          3              Y - Inn right       5.143
-
-    1          4              Y - Inn left        5.024
-
-    3          5              X - Out right       4.879
-
-    0          6              X - Out left        5.003
-
-    6          7                Not Used
+|aoPin|Cable #|Coil|Comp. mT/V|
+|---|---|---|---|
+|2|1|Z - Mid top|5.003|
+|5|2|Z - Mid bot|4.433|
+|4|3|Y - Inn right|5.143|
+|1|4|Y - Inn left|5.024|
+|3|5|X - Out right|4.879|
+|0|6|X - Out left|5.003|
+|6|7|Not Used|Not Used|
 
 ## Introduction
 
