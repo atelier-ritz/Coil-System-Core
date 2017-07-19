@@ -8,14 +8,14 @@ FLAGS = -ggdb
 #clean:
 #	rm -f main
 
-tutorial: main.c callbacks.c vision.c s826_subroutine.c FWcamera.cpp coilFieldControl.c twistField.c  math_subroutine.c 
+tutorial: main.c callbacks.c vision.c s826_subroutine.c FWcamera.cpp coilFieldControl.c twistField.c  math_subroutine.c
 #	gcc -std=gnu99 `pkg-config --cflags gtk+-3.0` -o tutorial main.c callbacks.c vision.c s826_subroutine.c pololu.c -export-dynamic `pkg-config --libs gtk+-3.0` -lm -lz -opencv -L/usr/local/lib -lopencv_core -lopencv_highgui -lopencv_contrib
 #	gcc -std=gnu99 `pkg-config --cflags gtk+-3.0` -o tutorial main.c callbacks.c pololu.c s826_subroutine.c vision.c -export-dynamic `pkg-config --libs gtk+-3.0` -lm `pkg-config --cflags --libs opencv --libs l826_64 `
 #best	gcc -std=gnu99 `pkg-config --cflags gtk+-2.0` -o tutorial main.c callbacks.c pololu.c vision.c s826_subroutine.c -export-dynamic `pkg-config --libs gtk+-2.0` -lm `pkg-config --cflags --libs opencv --libs l826_64`
 #	g++ -std=c++0x `pkg-config --cflags gtk+-2.0` -o tutorial main.c callbacks.c pololu.c vision.c s826_subroutine.c motorControl.c quadstep.cpp FWcamera.cpp -export-dynamic `pkg-config --libs gtk+-2.0` -lm `pkg-config --cflags --libs opencv --libs` -l826_64  -lraw1394 -ldc1394
-	${CXX} ${FLAGS} -std=c++0x `pkg-config --cflags gtk+-2.0` -o tutorial main.c callbacks.c vision.c s826_subroutine.c math_subroutine.c coilFieldControl.c  twistField.c  AccelStepper.cpp FWcamera.cpp -export-dynamic `pkg-config --libs gtk+-2.0` -lm `pkg-config --cflags --libs opencv --libs` -l826_64  -lraw1394 -ldc1394 
+	${CXX} ${FLAGS} -std=c++0x `pkg-config --cflags gtk+-2.0` -o tutorial main.c callbacks.c vision.c s826_subroutine.c math_subroutine.c coilFieldControl.c  twistField.c  AccelStepper.cpp FWcamera.cpp -export-dynamic `pkg-config --libs gtk+-2.0` -lm `pkg-config --cflags --libs opencv --libs` -l826_64  -lraw1394 -ldc1394
 #	gcc -std=gnu99 `pkg-config --cflags gtk+-2.0` -o main.c callbacks.c pololu.c -export-dynamic `pkg-config --libs gtk+-2.0` -lm `pkg-config --cflags --libs opencv --libs l826_64`
-#	gpp -std=c++0x `pkg-config --cflags gtk+-2.0` -o vision.c s826_subroutine.c -export-dynamic `pkg-config --libs gtk+-2.0` -lm `pkg-config --cflags --libs opencv --libs l826_64`	
+#	gpp -std=c++0x `pkg-config --cflags gtk+-2.0` -o vision.c s826_subroutine.c -export-dynamic `pkg-config --libs gtk+-2.0` -lm `pkg-config --cflags --libs opencv --libs l826_64`
 #	gpp -o tutorial main.o callbacks.o pololu.o vision.o s826_subroutine.o
 #	gcc -std=gnu99 `pkg-config --cflags gtk+-2.0` -o tutorial main.c callbacks.c pololu.c -export-dynamic `pkg-config --libs gtk+-2.0` -lm
 #	gcc -std=gnu99 `pkg-config --cflags gtk+-2.0` -o tutorial main.c -export-dynamic `pkg-config --libs gtk+-2.0` -lm `pkg-config --cflags --libs opencv --libs l826_64`

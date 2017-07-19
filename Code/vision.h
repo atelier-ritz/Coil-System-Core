@@ -64,26 +64,6 @@ void settopcam_xz_vision(int);
 void setcannyLow_xz_vision(int);
 void setcannyHigh_xz_vision(int);
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// magnet detection functions declarations -- Edited by Zhe
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-void set_magnetdetection(int d);
-void set_showbox(int d);
-void set_draw_annotation(int d);
-void set_showprocess(int d);
-void set_draw_roi(int d);
-void set_draw_points(int d);
-void set_closediameter(int d);
-void set_needle_thick(int d);
-void set_magnet_threshold(double d);
-void orientation_display(Point2f, Point2f, Point2f, Point2f);
-void set_showdestination(int d);
-void set_showfielddirection(int d);
-void reverse_magent(void);
-void set_magnet_trust(void);
-float anglePlus_v( float a, float b);
-float angleMinus_v( float c, float a);
-float angleMiddle_v( float a, float b);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ); //click in pixels

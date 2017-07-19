@@ -78,7 +78,8 @@ bool flag_cut_off = false;
 bool coil_3d = true, coil_2d_xz = false;
 float factor_x = 5.0964, factor_y = 4.999, factor_z = 5.1677;
 float field_mag_fab = 14.0;
-float field_x, field_y, field_z, field_mag, field_angle = -90.0;
+float field_x = 0.0, field_y = 0.0, field_z = 0.0, field_mag = 14.0, field_angle = -90.0;
+static float fieldAngleXY = 0.0, fieldAngleXZ = 0.0;
 float field_angle_m = 0.0; // field_angle in magnet coordinate
 
 // pin assignments for motor driver
@@ -1000,7 +1001,7 @@ void init_sinusoidal_field(void) // initiate sinusoidal field thread
 {
     //printf("@ the Beginning of sinusoidal_field_thread.\n");
     flag_sinusoidal_field = true;
-	pthread_t sinusoidal_field;
+    pthread_t sinusoidal_field;
     pthread_create(&sinusoidal_field, NULL, sinusoidal_field_thread, NULL);  //start swimmer thread
 }
 
@@ -1231,12 +1232,6 @@ void stop_timing( void ) // stop timing thread
 }
 
 // automatic fabrication thread related functions
-
-void set_left_constraint (int d)
-{
-    left_constraint = d;
-}
-
 void init_auto_fab( void ) // initiate automatic fabrication thread
 {
     //printf("@ the Beginning of automatic_fabrication_thread.\n");
@@ -1331,14 +1326,32 @@ void set_field_xyz (int index, float d) // indices 123 -> xyz. for 3d, controlle
 	field_angle_m = field2magnet_angle(field_angle);
 }
 
-void set_field_mag_fab (float d)
-{
+// void set_field_xyz_angle (void) {
+//   field_z = field_mag_fab * sind(field_angle_xz);
+//   field_y = field_mag_fab * cosd(field_angle_xz) * sind(field_angle_xy);
+//   field_x = field_mag_fab * cosd(field_angle_xz) * cosd(field_angle_xy);
+//   set_coil_current_to (0, field_x);
+//   set_coil_current_to (1, field_y);
+//   set_coil_current_to (2, field_z);
+// 	field_angle = atan2(field_z, field_x) * 180.0/M_PI; // atan2() => (-pi, pi]
+// 	field_angle_m = field2magnet_angle(field_angle);
+// }
+
+void set_field_mag_fab (float d) {
     float field_mag_old = field_mag_fab;
     field_mag_fab = d;
     set_field_xyz( 0, field_x * d / field_mag_old );
     set_field_xyz( 1, field_y * d / field_mag_old );
     set_field_xyz( 2, field_z * d / field_mag_old );
 }
+
+void set_field_angle_xy (float d) {
+  fieldAngleXY = d;
+}
+//
+// void set_field_angle_xz (float d) {
+//   fieldAngleXZ = d;
+// }
 
 void set_field_polar (float magnitude, float angle)
 {

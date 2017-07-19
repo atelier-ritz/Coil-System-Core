@@ -11,7 +11,7 @@
 #include "constantValue.h"
 #include "s826_subroutine.h"
 #include "vision.h"
-#include "coilFieldControl.h"  
+#include "coilFieldControl.h"
 #include "AccelStepper.h"
 #include <stdio.h>
 #include <math.h>
@@ -106,7 +106,10 @@ void stop_cut_off (void);
 // field control
 void set_factor(int);
 void set_field_xyz (int, float);
+// void set_field_xyz_angle (void);
 void set_field_mag_fab (float);
+void set_field_angle_xy (float);
+// void set_field_angle_xz (float);
 void set_field_polar (float, float);
 
 #endif // TEMPFEEDING

@@ -61,14 +61,6 @@ void set_field_xyz_2 (float bx, float by, float bz, float dbx, float dby, float 
 
  	s826_aoPin(2, 2, bz*0.191929507962791); //z-up
  	s826_aoPin(5, 2, bz*0.191929507962791); //z-down
-
-
-
-    /*s826_aoPin(3, 2, bx*0.18754719386756); //x-right
-    s826_aoPin(0, 2, bx*0.18754719386756); //x-left
-    s826_aoPin(1, 2, by*-0.19230420653328); //y-left
-    s826_aoPin(5, 2, by*-0.19230420653328); //y-right
-    s826_aoPin(4, 2, bz*-0.191929507962791); //z-serial*/
 }
 
 void resetCoils(void) {

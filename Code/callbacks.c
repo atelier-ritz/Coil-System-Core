@@ -164,10 +164,6 @@ void* GUI_refresh_thread(void*threadid)
             }
         }
         g_main_context_invoke (NULL, update_GUI_time, NULL);
-        if (flag_temp_control)
-            g_main_context_invoke (NULL, update_current_temp, NULL);
-        if (flag_magnet_sampled)
-            g_main_context_invoke (NULL, update_magnet_areas, NULL);
 
         //g_main_context_invoke (NULL, update_GUI_time_ms, NULL);
         gettimeofday(&start, NULL);
@@ -183,7 +179,7 @@ void* GUI_refresh_thread(void*threadid)
         time_init = time_current  ; //reset last time
 
         // If no GUI_refresh job is needed, stop this thread
-        if ( (!flag_draw_field) && (!GUI_refresh_flag_vidWin2) && (!flag_temp_control))
+        if ( (!flag_draw_field) && (!GUI_refresh_flag_vidWin2))
             GUI_refresh_running = 0;
 	}
 	//fclose(fp);   // Close file
@@ -567,238 +563,13 @@ void on_dbz_mag_changed (GtkEditable *editable, gpointer user_data)
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Magnet Detection Callbacks -- Zhe
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// magnet vision detection functions
-void on_magnet_detection_toggled (GtkToggleButton *togglebutton, gpointer data) //magnet_detection toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("edgemap toggled to %i\n", d );
-	set_magnetdetection(d); //set magnetdetection variable in vision.c
-}
-
-void on_show_box_toggled (GtkToggleButton *togglebutton, gpointer data) //show_box toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("edgemap toggled to %i\n", d );
-	set_showbox(d); //set showbox variable in vision.c
-}
-
-void on_draw_annotation_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("edgemap toggled to %i\n", d );
-	set_draw_annotation(d);
-}
-
-void on_show_process_toggled (GtkToggleButton *togglebutton, gpointer data) //show_process toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("edgemap toggled to %i\n", d );
-	set_showprocess(d); //set showprocess variable in vision.c
-}
-
-void on_draw_roi_toggled (GtkToggleButton *togglebutton, gpointer data) //draw_roi toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("edgemap toggled to %i\n", d );
-	set_draw_roi(d); //set draw_roi variable in vision.c
-}
-
-void on_draw_points_toggled (GtkToggleButton *togglebutton, gpointer data) //draw_points toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("edgemap toggled to %i\n", d );
-	set_draw_points(d); //set draw_points variable in vision.c
-}
-
-void on_close_diameter_changed (GtkEditable *editable, gpointer user_data)
-{
-	int d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("close diameter changed to %.1f units\n", d );
-	set_closediameter(d);
-}
-
-void on_needle_thick_changed (GtkEditable *editable, gpointer user_data)
-{
-	int d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("needle thickness changed to %.1f units\n", d );
-	set_needle_thick(d);
-}
-
-void on_magnet_threshol_changed (GtkEditable *editable, gpointer user_data)
-{
-	double d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("threshold changed to %.1f units\n", d );
-	set_magnet_threshold(d);
-}
-
-void on_reverse_magnet_clicked (GtkWidget *widget, gpointer data)
-{
-    reverse_magent(); // @vision.c, reverse magnet direction
-}
-
-void on_sample_magnet_clicked (GtkWidget *widget, gpointer data)
-{
-    set_magnet_trust();
-}
-
-// discrete bending thread functions -- Zhe
-void on_discrete_bending_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d==1) //if button is toggled up
-	{
-		init_discrete_bending();   // coilFieldControl.c
-	}else
-	{
-		stop_discrete_bending();
-	}
-}
-
-void on_kp_changed (GtkEditable *editable, gpointer user_data) //change Kp in controller
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("kp changed to %.1f units\n", d );
-	set_kp(d);
-}
-
-void on_ki_changed (GtkEditable *editable, gpointer user_data) //change Ki in controller
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("ki changed to %.1f units\n", d );
-	set_ki(d);
-}
-
-void on_destination_angle_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("destination angle set to %.1f units\n", d );
-	set_destination_angle(d);
-}
-
-void on_show_destination_toggled (GtkToggleButton *togglebutton, gpointer data) //show_destination toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("show_destination toggled to %i\n", d );
-	set_showdestination(d); //set showprocess variable in vision.c
-}
-
-void on_show_field_direction_toggled (GtkToggleButton *togglebutton, gpointer data) //show_field_direction toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("show_field_direction toggled to %i\n", d );
-	set_showfielddirection(d); //set showfielddirection variable in vision.c
-}
-
-void on_discrete_go_toggled (GtkToggleButton *togglebutton, gpointer data) //discrete_go toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("discrete_go toggled to %i\n", d );
-	set_discrete_go(d); //set discrete_go variable in coilFieldControl.c
-}
-
-// continuous bending thread functions -- Zhe
-void on_continuous_bending_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d==1) //if button is toggled up
-	{
-		init_continuous_bending();   // coilFieldControl.c
-	}else
-	{
-		stop_continuous_bending();
-	}
-}
-
-void on_continuous_radius_changed (GtkEditable *editable, gpointer user_data) // change radius of continuous bending
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("radius of continuous bending set to %.1f units\n", d );
-	set_continuous_radius(d);
-}
-
-void on_continuous_central_changed (GtkEditable *editable, gpointer user_data) // change central angle of continuous bending
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("central angle of continuous bending set to %.1f units\n", d );
-	set_continuous_central(d);
-}
-
-void on_continuous_start_changed (GtkEditable *editable, gpointer user_data) // change starting of continuous bending
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("starting angle of continuous bending set to %.1f units\n", d );
-	set_continuous_start(d);
-}
-
-void on_continuous_time_changed (GtkEditable *editable, gpointer user_data) // change time of continuous bending
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("time of continuous bending set to %.1f units\n", d );
-	set_continuous_time(d);
-}
-
-void on_continuous_feedback_toggled (GtkToggleButton *togglebutton, gpointer data) //continuous_feedback check button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	set_continuous_feedback(d); //set continuous_feedback variable in coilFieldControl.c
-}
-
-void on_continuous_go_toggled (GtkToggleButton *togglebutton, gpointer data) //continuous_go toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("continuous_go toggled to %i\n", d );
-	set_continuous_go(d); //set continuous_go variable in coilFieldControl.c
-}
-
-// temperature control thread callbacks
-void on_temp_control_toggled (GtkToggleButton *togglebutton, gpointer data) // whether to perform temperature control
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d==1) //if button is toggled up
-	{
-		init_temp_control();   // TemperatureFeeding.c
-        if (!GUI_refresh_running)  // If the GUI_refresh thread is NOT running...
-		{
-            GUI_refresh_running = 1;
-            pthread_t   GUI_refresh;
-            pthread_create(&GUI_refresh, NULL, GUI_refresh_thread, NULL);  //start control loop thread
-		}
-	}
-	else
-	{
-		stop_temp_control();
-	}
-}
-
-void on_destination_temp_changed (GtkEditable *editable, gpointer user_data) // change destination temperature
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("destination temperature set to %.1f units\n", d );
-	set_destination_temp(d);
-}
-
-void on_temp_go_toggled (GtkToggleButton *togglebutton, gpointer data) // temperature go/stop toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("discrete_go toggled to %i\n", d );
-	set_temp_go(d);
-}
-
 // sinusoidal field (2d) thread functions
 void on_sinusoidal_field_toggled (GtkToggleButton *togglebutton, gpointer data) // whether to generate a sinusoidal field
 {
     int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d==1) //if button is toggled up
-	{
+	if (d == 1) { //toggled up
 		init_sinusoidal_field();   // AutoFabrication.c
-	}
-	else
-	{
+	}else{
 		stop_sinusoidal_field();
 	}
 }
@@ -931,178 +702,50 @@ void on_peak_angle_st_changed (GtkEditable *editable, gpointer user_data)
 	set_peak_angle_st(d);
 }
 
-// automatic feeding thread callbacks
-void on_auto_feeding_toggled (GtkToggleButton *togglebutton, gpointer data) // whether to perform automatic feeding
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d) //if button is toggled up
-	{
-		init_auto_feeding();   // TemperatureFeeding.c
-	}
-	else
-	{
-		stop_auto_feeding();
-	}
-}
-
-void on_feeding_distance_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("feeding distance set to %.1f units\n", d );
-	set_feeding_distance(d);
-}
-
-void on_feeding_speed_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("feeding speed set to %.1f units\n", d );
-	set_feeding_speed(d);
-}
-
-void on_feeding_go_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("feeding go toggle button set to %.1f units\n", d );
-	set_feeding_go(d);
-}
-
-void on_feeding_increments_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("feeding increments is set to %.1f units\n", d );
-	set_feeding_increments(d);
-}
-
-void on_manual_override_toggled (GtkToggleButton *togglebutton, gpointer data) // whether to perform manual
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d) //if button is toggled up
-	{
-		init_manual_feeding();   // TemperatureFeeding.c
-		printf("manual override set.\n");
-	}
-	else
-	{
-		stop_manual_feeding();
-		printf("manual override stopped.\n");
-	}
-}
-
-void on_feeder_extend_button_clicked (GtkWidget *widget, gpointer data)
-{
-    feederIncrement();
-    //printf("increment clicked\n");
-}
-
-void on_feeder_retract_button_clicked (GtkWidget *widget, gpointer data)
-{
-    feederDecrement();
-    //printf("decrement clicked\n");
-}
-
-//automatic fabrication callbacks
-void on_left_constraint_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-    set_left_constraint(d);
-}
-
-void on_shape_fab_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d)
-	{
-		init_auto_fab(); // AutoFabrication.c
-	}
-	else
-	{
-		stop_auto_fab(); // AutoFabrication.c
-	}
-}
-
-// device cutting-off callbacks
-void on_neutral_cut_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	set_neutral_cut(d);
-}
-
-void on_mag_cut_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	set_mag_cut(d);
-}
-
-void on_fre_cut_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	set_fre_cut(d);
-}
-
-void on_cut_go_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d)
-	{
-		init_cut_off(); // AutoFabrication.c
-	}
-	else
-	{
-		stop_cut_off(); // AutoFabrication.c
-	}
-}
-
 // field control callbacks
-void on_cb_coil_selection_changed(GtkComboBox *combo_box, gpointer user_data)
-{
+void on_cb_coil_selection_changed(GtkComboBox *combo_box, gpointer user_data) {
     int d = gtk_combo_box_get_active (combo_box);
     set_factor(d); // d=1, 3D coil system; d=0 2D coil system
 }
 
-void on_field1_fab_changed (GtkEditable *editable, gpointer user_data)
-{
+void on_field1_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
 	set_field_xyz (0, d);
 }
 
-void on_field2_fab_changed (GtkEditable *editable, gpointer user_data)
-{
+void on_field2_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
 	set_field_xyz (1, d);
 }
 
-void on_field3_fab_changed (GtkEditable *editable, gpointer user_data)
-{
+void on_field3_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
 	set_field_xyz (2, d);
 }
 
-void on_field_mag_fab_changed (GtkEditable *editable, gpointer user_data)
-{
+void on_field_mag_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
 	set_field_mag_fab (d);
+  // set_field_xyz_angle ();
 }
 
-void on_xy_3d_fab_changed (GtkEditable *editable, gpointer user_data)
-{
+void on_xy_3d_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-    set_field_xyz ( 0, field_mag_fab*cosd(d) );
-    set_field_xyz ( 1, field_mag_fab*sind(d) );
+    set_field_xyz ( 0, field_mag_fab * cosd(d) );
+    set_field_xyz ( 1, field_mag_fab * sind(d) );
+  set_field_angle_xy (d);
+  // set_field_xyz_angle ();
 }
 
-void on_xz_3d_fab_changed (GtkEditable *editable, gpointer user_data)
-{
+void on_xz_3d_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-    set_field_xyz ( 0, field_mag_fab*cosd(d) );
-    set_field_xyz ( 2, field_mag_fab*sind(d) );
+    set_field_xyz ( 0, field_mag_fab * cosd(d) );
+    set_field_xyz ( 2, field_mag_fab * sind(d) );
+  // set_field_angle_xz (d);
+  // set_field_xyz_angle ();
 }
 
-void on_reset_field_button_clicked (GtkWidget *widget, gpointer data)
-{
+void on_reset_field_button_clicked (GtkWidget *widget, gpointer data) {
    	set_field_xyz (0, 0);
    	set_field_xyz (1, 0);
    	set_field_xyz (2, 0);
