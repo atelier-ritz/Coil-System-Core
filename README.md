@@ -27,9 +27,10 @@
 |5|7|72|big XP PSU (wooden case)|
 |5|8|72|big XP PSU (wooden case)|
 
+
 === ATTENTION ===
 
-The big XP PSU uses 220V AC input. It must be plugged at the designated outlet, and make sure the fuse at the hallway is turned on. Refer to the images in /Misc directory.
+The big XP PSU uses 220V AC input. It must be plugged at the designated outlet. Make sure the fuse at the hallway is turned on. For more details, refer to the images in /Misc directory.
 
 ## Introduction
 
