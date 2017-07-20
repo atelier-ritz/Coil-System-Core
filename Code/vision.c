@@ -1,6 +1,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 // File      : vision.c
-// Function  : Camera-related subroutines
+// Function  : Image processing and drawing. initialize camera, receive and display frames, process images
 // Edited by : Jiachen, Zhe
 ////////////////////////////////////////////////////////////////////////////////////////
 #include "vision.h"
@@ -23,31 +23,28 @@ GtkLabel *labelFPSreceive, *labelFPSreceive_xz;
 static Point mouse, mouseC, mouseR;
 static Point mouse_xz, mouseC_xz, mouseR_xz;
 
-//ImageProcessor RobotTracker(width, height, 1);
-
-int cannyLow=100, cannyHigh=150; //thresholds for image processing filter
+// X-Y Camera
+int cannyLow = 100, cannyHigh = 150; //thresholds for image processing filter
 static int dilater = 1;
 static int edgemap = 0, binary = 0; //are we performing edgemap calculations?
 int visionParam1 = 65; //for processing. Used in threshold() and houghCircle().
 int visionParam2 = 35; //for processing
 static int detect = 1; //are we detecting object?
 static float fpsReceive; //frames per second of video
+Mat img_m_color_for_display;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // X-Z Camera
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-int cannyLow_xz=100, cannyHigh_xz=150; //thresholds for image processing filter
+int cannyLow_xz=100, cannyHigh_xz=150;
 static int dilater_xz = 1;
-static int edgemap_xz = 0, binary_xz = 0; //are we performing edgemap calculations?
-int visionParam1_xz = 65; //for processing
-int visionParam2_xz = 35; //for processing
-static int detect_xz = 1; //are we detecting object?
+static int edgemap_xz = 0, binary_xz = 0;
+int visionParam1_xz = 65;
+int visionParam2_xz = 35;
+static int detect_xz = 1;
 static int topcam_on = 1; //is the sidecam capturing? Default: YES
-static float fpsReceive_xz; //frames per second of video
+static float fpsReceive_xz;
+Mat img_m_color_for_display2;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // magnet detection variables -- Zhe
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 float m_x, m_y, m_a = 0.0, m_x_history[6] = {0,0,0,0,0,0}, m_y_history[6] = {0,0,0,0,0,0}, m_a_history[6] = {0,0,0,0,0,0}; // historical value of magnet centre (m_x, m_y) and angle m_a
 float m_x_temp, m_y_temp, m_a_temp;
 float magnet_area = 0;
@@ -59,411 +56,273 @@ extern float current_temp;
 extern char fab_status[];
 extern char fab_time[];
 extern float field_x, field_y, field_z, field_mag, field_angle;
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-// This thread runs the image processing functions:
-// initialize camera, receive and display frames, process images
-
-Mat img_m_color_for_display, img_m_color_for_display2;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Global Functions
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-Mat getImage(void)
-{
+Mat getImage(void) {
 	return img_m_color_for_display;
 }
 
-Mat getImage2(void)
-{
+Mat getImage2(void) {
 	return img_m_color_for_display2;
 }
 
-void initVision(void)
-{
-	pthread_t vthread, fthread, vthread_xz, fthread_xz;
-
-	if(!cam_xz.initialize_xz()) //cam is instance of FWCamera, found in FWcamera.cpp
-	{
-		g_print("FW camera xz could not be found in initVision!!!\n");
-		return;
-	}
-	usleep(1e5);
-	if(!cam_xz.startGrabbingVideo_xz())
-	{
-		g_print("FW cam xz could not grab in initVision!!!\n");
-		return;
-	}
-
-	if(killVisionThread == 0)
-		g_print("Vision already running in initVision!!!\n");
-	usleep(1e5);
-
-	if(killVisionThread == 1)
-  	{
-  		killVisionThread = 0;
-		//pthread_create(&fthread, NULL, FPSprint    , NULL);  //start frame print thread. Functionality??? comment this if you do not want to show frame per second
-		pthread_create(&vthread_xz, NULL, visionThread_xz, NULL);  //start vision thread
-	}
-
-	// X-Z Camera
-	if(topcam_on == 1) //if we are also using the top cam
-	{
-		usleep(2e5);
-		printf("Before cam_xy.initialize_xz().\n");
-		if(!cam.initialize()) //cam is instance of FWCamera, found in FWcamera.cpp
-		{
-			g_print("FW camera xy could not be found in initVision!!!\n");
-			return;
+void initVision(void) {
+		pthread_t vthread, fthread, vthread_xz, fthread_xz;
+		if(!cam_xz.initialize_xz()) {//cam is instance of FWCamera, found in FWcamera.cpp
+				g_print("FW camera xz could not be found in initVision!!!\n");
+				return;
 		}
 		usleep(1e5);
-
-		if(!cam.startGrabbingVideo())
-		{
-			g_print("FW cam xy could not grab in initVision!!!\n");
-			return;
+		if(!cam_xz.startGrabbingVideo_xz()) {
+				g_print("FW cam xz could not grab in initVision!!!\n");
+				return;
+		}
+		if(killVisionThread == 0) {
+				g_print("Vision already running in initVision!!!\n");
+		}
+		usleep(1e5);
+		if(killVisionThread == 1)	{
+		  	killVisionThread = 0;
+				pthread_create(&vthread_xz, NULL, visionThread_xz, NULL);  //start vision thread
 		}
 
-		usleep(1e5);
-		//pthread_create(&fthread_xz, NULL, FPSprint_xz, NULL);  //start frame print thread
-		pthread_create(&vthread, NULL, visionThread, NULL);  //start vision thread
-	}
-	return;
+		// X-Z Camera
+		if(topcam_on == 1) {//if we are also using the top cam
+				usleep(2e5);
+				printf("Before cam_xy.initialize_xz().\n");
+				if(!cam.initialize()) {//cam is instance of FWCamera, found in FWcamera.cpp
+						g_print("FW camera xy could not be found in initVision!!!\n");
+						return;
+				}
+				usleep(1e5);
+				if(!cam.startGrabbingVideo())	{
+						g_print("FW cam xy could not grab in initVision!!!\n");
+						return;
+				}
+				usleep(1e5);
+				pthread_create(&vthread, NULL, visionThread, NULL);  //start vision thread
+		}
+		return;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Frame Print Thread
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 // This thread is not used? UI still displays images after this is commented out.
-void* FPSprint(void*)
-{
-	char strReceive[50];
-	char strReceive_xz[50];
+// void* FPSprint(void*)
+// {
+// 	char strReceive[50];
+// 	char strReceive_xz[50];
+//
+// 	while(!killVisionThread)   //while the image processing is running //repeat vision loop until we set killVisionthread=1 using stopVision()
+// 	{
+// 		//  int sprintf(char *str, const char *format, ...) sends formatted output to a string pointed to by str.
+// 		sprintf(strReceive, "%.1f", fpsReceive); //writes into strRecieve the frames per second
+// 		sprintf(strReceive_xz, "%.1f", fpsReceive_xz);
+// 		gdk_threads_enter();
+// 		gtk_label_set_text(GTK_LABEL(labelFPSreceive), strReceive); //draw on the gui
+// 		gtk_label_set_text(GTK_LABEL(labelFPSreceive_xz), strReceive_xz);
+// 		gdk_threads_leave();
+// 		usleep((int)1e6); //sets frame rate display frequency
+// 	}
+// 	//printf("In the test zone!\n");
+// 	sprintf(strReceive, "N/A"); //when we turn off the vision, write N/A into the gui
+// 	sprintf(strReceive_xz, "N/A");
+// 	gdk_threads_enter();
+// 	gtk_label_set_text(GTK_LABEL(labelFPSreceive), strReceive);
+// 	gtk_label_set_text(GTK_LABEL(labelFPSreceive_xz), strReceive_xz);
+// 	gdk_threads_leave();
+// }
 
-	while(!killVisionThread)   //while the image processing is running //repeat vision loop until we set killVisionthread=1 using stopVision()
-	{
-		//  int sprintf(char *str, const char *format, ...) sends formatted output to a string pointed to by str.
-		sprintf(strReceive, "%.1f", fpsReceive); //writes into strRecieve the frames per second
-		sprintf(strReceive_xz, "%.1f", fpsReceive_xz);
-		gdk_threads_enter();
-		gtk_label_set_text(GTK_LABEL(labelFPSreceive), strReceive); //draw on the gui
-		gtk_label_set_text(GTK_LABEL(labelFPSreceive_xz), strReceive_xz);
-		gdk_threads_leave();
-		usleep((int)1e6); //sets frame rate display frequency
-	}
-	//printf("In the test zone!\n");
-	sprintf(strReceive, "N/A"); //when we turn off the vision, write N/A into the gui
-	sprintf(strReceive_xz, "N/A");
-	gdk_threads_enter();
-	gtk_label_set_text(GTK_LABEL(labelFPSreceive), strReceive);
-	gtk_label_set_text(GTK_LABEL(labelFPSreceive_xz), strReceive_xz);
-	gdk_threads_leave();
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// visionThread --- Camera 1
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void* visionThread(void*) {
+		printf("@ the Beginning of visionThread().\n");
+
+		int index = 0;
+		unsigned char *inImage;																											// = (unsigned char*)malloc(sizeof(unsigned int)*width*height*depth);
+		Mat img_m, img_m_color, img_m_gray;
+		Mat threshold_output;    																										// for threshold and rectangle detection
+
+		// Time
+		int i;
+		timeval tStart, tEnd;
+		float time;
+		double current_time;
+		float fpsVec[10] = {10,10,10,10,10,10,10,10,10,10};
+		int fpsIndex = 0;
+
+		while(!killVisionThread) {																									//repeat vision loop until we set killVisionthread=1 using stopVision()
+				gettimeofday(&tStart, NULL);
+				//usleep(6e4); 																													//slow down vision thread
+
+		        																																		// this function watis for a new frame, it takes a long time, so we can do some image processing in this thread
+				inImage = cam.grabAframe(); 																						//unsigned char *inImage;
+				if(inImage == NULL)	{
+					g_print("Error in firewire stream! Reattempting...\n");
+					usleep((int)1e3); 																										// I don't know what the wait delay should be
+				}
+
+				img_m = Mat(height, width, CV_8UC1, inImage); 													//convert to Mat format
+		    flag_newFrame = 1;																											// (07-15) indicate new frame
+
+				if(edgemap == 1) {
+						Canny(img_m, img_m, cannyLow, cannyHigh, 3 ); //edge detect
+						if(dilater > 0) {																										//if dilater = 0, just use original edgemap
+							dilate( img_m, img_m, Mat(), Point(-1, -1), dilater, 1, 1);
+							//smooth( img_m, img_m, CV_MEDIAN, 5, 5);
+							erode( img_m, img_m, Mat(), Point(-1, -1), dilater, 1, 1);
+						}
+						//circle( img_m, MM, 10, Scalar(20,100,255) , -1, 8, 0 );	          // Test Hough circle detection mode
+				}
+
+				if(detect == 1) {																												//for threshold and bounding box detection
+						blur( img_m, threshold_output, Size(4,4) ); 												//blur image to remove small blips etc
+						threshold( threshold_output, threshold_output, visionParam1, 255, THRESH_BINARY_INV );
+						//adaptiveThreshold(img_m, threshold_output, 255,	ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV,91,0);
+						if(dilater > 0) {																										//if dilater = 0, just use original edgemap
+								dilate( threshold_output, threshold_output, Mat(), Point(-1, -1), dilater, 1, 1);
+								erode( threshold_output, threshold_output, Mat(), Point(-1, -1), 2*dilater, 1, 1);
+								dilate( threshold_output, threshold_output, Mat(), Point(-1, -1), dilater, 1, 1);
+						}
+						if(binary == 1)	{																											//show binary image, don't do any more processing
+								cvtColor(threshold_output, img_m_color, CV_GRAY2BGR); 						//convert to color
+								gdk_threads_enter();																							//display video image in program window
+								gtk_image_set_from_pixbuf(videoWindow, gdk_pixbuf_new_from_data(img_m_color.data, GDK_COLORSPACE_RGB, false, 8, img_m_color.cols, img_m_color.rows, img_m_color.step, NULL, NULL));
+								gdk_threads_leave();
+								continue;
+						}
+				}
+				cvtColor(img_m, img_m_color, CV_GRAY2BGR); //convert to color anyways
+
+				//draw mouse clicks
+				if(mouse.x>0)
+					circle( img_m_color, mouse, 4, Scalar(  200, 50, 0), 2, 8, 0 );
+				if(mouseR.x>0)
+					circle( img_m_color, mouseR,4, Scalar( 20, 250, 300 ), 2, 8, 0 );
+				if(mouseC.x>0)
+					circle( img_m_color, mouseC, 4, Scalar( 220, 130, 100 ), 2, 8, 0 );
+
+			  //draw field indicator
+				draw_xz_magnetic_field(img_m_color,580,400);
+				img_m_color_for_display = img_m_color;
+
+				//  Needed for Frame rate calculation of Top camera (xy)
+				gettimeofday(&tEnd, NULL);
+				current_time = ((double)tEnd.tv_sec + (double)tEnd.tv_usec*1e-6) ;
+				time = (int)round( (((double)tEnd.tv_sec + (double)tEnd.tv_usec*1e-6) - ((double)tStart.tv_sec + (double)tStart.tv_usec*1e-6) )*1000.0);
+				fpsVec[fpsIndex++] = 1000.0/time;
+				if(fpsIndex > 9) fpsIndex = 0;
+				fpsReceive = 0;
+				for(int i = 0; i < 10; i++)
+				fpsReceive += fpsVec[i];
+				fpsReceive /= 10.0;
+		}																																						//end vision loop due to killVisionthread==1
+
+		cam.stopGrabbingVideo();
+		usleep ((int)1e5); //make sure that ImageProc_xz has closed
+		cam.deinitialize();
+		printf("@ the End of visionThread().\n");
+		return NULL;
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-void* visionThread(void*)
-{
-	printf("@ the Beginning of visionThread().\n");
-
-	int index = 0;
-	unsigned char *inImage;// = (unsigned char*)malloc(sizeof(unsigned int)*width*height*depth);
-	Mat img_m, img_m_color, img_m_gray;
-
-	Mat threshold_output;    // for threshold and rectangle detection
-
-	int i;
-	timeval tStart, tEnd;
-	float time;
-	double current_time;
-	float fpsVec[10] = {10,10,10,10,10,10,10,10,10,10};
-	int fpsIndex = 0;
-
-	double time_current, time_elapsed, time_init;
-	struct timeval start;
-	gettimeofday(&start, NULL);
-	time_init = (double) start.tv_sec + start.tv_usec*1e-6 ; // Start time
-
-	while(!killVisionThread) //repeat vision loop until we set killVisionthread=1 using stopVision()
-	{
-        //printf("Marker 1.\n");
-		//g_print("Got frame %d.   ", frame++);
-
-		gettimeofday(&tStart, NULL);
-		//usleep(6e4); //slow down vision thread
-
-        // this function watis for a new frame, it takes a long time, so we can do some image processing in this thread
-		inImage = cam.grabAframe(); //unsigned char *inImage;
-		if(inImage == NULL)
-		{
-			g_print("Error in firewire stream! Reattempting...\n");
-			usleep((int)1e3); // I don't know what the wait delay should be
-		}
-
-		img_m = Mat(height, width, CV_8UC1, inImage); //convert to Mat format
-
-        flag_newFrame = 1;																// (07-15) indicate new frame
-
-		//gettimeofday(&start, NULL);
-		//time_current = (double) start.tv_sec + start.tv_usec*1e-6 ; // Start time
-		//time_elapsed = time_current - time_init;
-		//time_current = time_init;
-		//printf("in vision thread, time is %.5f.\n", time_elapsed);
-		//
-
-		if(edgemap==1)
-		{
-			Canny(img_m, img_m, cannyLow, cannyHigh, 3 ); //edge detect
-
-			if(dilater>0) //if dilater = 0, just use original edgemap
-			{
-				dilate( img_m, img_m, Mat(), Point(-1, -1), dilater, 1, 1);
-				//smooth( img_m, img_m, CV_MEDIAN, 5, 5);
-				erode( img_m, img_m, Mat(), Point(-1, -1), dilater, 1, 1);
-			}
-		//	 	circle( img_m, MM, 10, Scalar(20,100,255) , -1, 8, 0 );          // Test Hough circle detection mode
-		}
-
-        //printf("Marker 2.\n");
-
-		if(detect == 1) //for threshold and bounding box detection
-		{
-			blur( img_m, threshold_output, Size(4,4) ); //blur image to remove small blips etc
-			threshold( threshold_output, threshold_output, visionParam1, 255, THRESH_BINARY_INV );
-			//adaptiveThreshold(img_m, threshold_output, 255,	ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV,91,0);
-			if(dilater>0) //if dilater = 0, just use original edgemap
-			{
-				dilate( threshold_output, threshold_output, Mat(), Point(-1, -1), dilater, 1, 1);
-				erode( threshold_output, threshold_output, Mat(), Point(-1, -1), 2*dilater, 1, 1);
-				dilate( threshold_output, threshold_output, Mat(), Point(-1, -1), dilater, 1, 1);
-			}
-			if(binary==1) //show binary image, don't do any more processing
-			{
-				cvtColor(threshold_output, img_m_color, CV_GRAY2BGR); //convert to color
-				gdk_threads_enter();	//display video image in program window
-				gtk_image_set_from_pixbuf(videoWindow, gdk_pixbuf_new_from_data(img_m_color.data, GDK_COLORSPACE_RGB, false, 8, img_m_color.cols, img_m_color.rows, img_m_color.step, NULL, NULL));
-				gdk_threads_leave();
-				continue; //don't do any more processing
-			}
-            cvtColor(img_m, img_m_color, CV_GRAY2BGR); //convert to color
-		}
-		else
-			cvtColor(img_m, img_m_color, CV_GRAY2BGR); //convert to color anyways
-
-		//draw mouse clicks:
-		if(mouse.x>0)
-			circle( img_m_color, mouse, 4, Scalar(  200, 50, 0), 2, 8, 0 );
-		if(mouseR.x>0)
-			circle( img_m_color, mouseR,4, Scalar( 20, 250, 300 ), 2, 8, 0 );
-		if(mouseC.x>0)
-			circle( img_m_color, mouseC, 4, Scalar( 220, 130, 100 ), 2, 8, 0 );
-
-		//imshow("this is a test2",img_m);//display video image in separate cv window
-		// compute 10 average fps
-
-		img_m_color_for_display = img_m_color;   // Transfer the image data to the buffer for display
-
-		//  Needed for Frame rate calculation of Top camera (xy)
-		gettimeofday(&tEnd, NULL);
-		current_time = ((double)tEnd.tv_sec + (double)tEnd.tv_usec*1e-6) ;
-		time = (int)round( (((double)tEnd.tv_sec + (double)tEnd.tv_usec*1e-6) - ((double)tStart.tv_sec + (double)tStart.tv_usec*1e-6) )*1000.0);
-		fpsVec[fpsIndex++] = 1000.0/time;
-		if(fpsIndex > 9) fpsIndex = 0;
-		fpsReceive = 0;
-		for(int i = 0; i < 10; i++)
-			fpsReceive += fpsVec[i];
-		fpsReceive /= 10.0;
-	} //end vision loop due to killVisionthread==1
-
-	cam.stopGrabbingVideo();
-	usleep ((int)1e5); //make sure that ImageProc_xz has closed
-	cam.deinitialize();
-
-	printf("@ the End of visionThread().\n");
-	return NULL;
-}
-
-
-
+// visionThread_xz --- Camera 2   * refer to openCV *
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// X-Z Camera
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void* visionThread_xz(void*) {
-	printf("In vision thread x-z.\n");
+		printf("In vision thread x-z.\n");
 
-	unsigned char *inImage_xz;// = (unsigned char*)malloc(sizeof(unsigned int)*width*height*depth);
-	Mat img_m_xz, img_m_color_xz;
-	Mat threshold_output_xz; //for threshold and rectangle detection
+		unsigned char *inImage_xz;
+		Mat img_m_xz, img_m_color_xz;
+		Mat threshold_output_xz; //for threshold and rectangle detection
 
-	// Time
-	int i;
-	timeval tStart_xz, tEnd_xz;
-	float time_xz;
-	double current_time_xz;
-	float fpsVec_xz[10] = {10,10,10,10,10,10,10,10,10,10};
-	int fpsIndex_xz = 0;
+		// Time
+		int i;
+		timeval tStart_xz, tEnd_xz;
+		float time_xz;
+		double current_time_xz;
+		float fpsVec_xz[10] = {10,10,10,10,10,10,10,10,10,10};
+		int fpsIndex_xz = 0;
 
-	// local variables - Zhe
-	Mat img_m_xz_ori; // storing the original image of xz
-	Mat img_m_xz_bi; // storing the binary image of xz
-	Mat img_m_xz_temp;
-	float magnet_maxarea, pre_area = 100.0;
-	int ind_maxarea;
-	bool contour_number = false; // whether the number of contours is greater than 2 ?
+		// Local variables
+		Mat img_m_xz_ori; // storing the original image of xz
+		Mat img_m_xz_bi;  // storing the binary image of xz
+		Mat img_m_xz_temp;
+		float magnet_maxarea, pre_area = 100.0;
+		int ind_maxarea;
+		bool contour_number = false; // whether the number of contours is greater than 2 ?
 
-	while(!killVisionThread) {																												//repeat vision loop until we set killVisionthread = 1 using stopVision()
-		//g_print("Got frame %d.   ", frame++);
-		gettimeofday(&tStart_xz, NULL);
-		//usleep(6e4); //slow down vision thread
+		while(!killVisionThread) {																												//repeat vision loop until we set killVisionthread = 1 using stopVision()
+				gettimeofday(&tStart_xz, NULL);
+				//usleep(6e4); 																																	//slow down vision thread
 
-		inImage_xz = cam_xz.grabAframe_xz(); 																						//unsigned char *inImage;
-		if(inImage_xz == NULL) {
-				g_print("Error in firewire stream xz! Reattempting...\n");
-				usleep((int)1e3); 																														// I don't know what the wait delay should be
-		}
-
-		img_m_xz = Mat(height, width, CV_8UC1, inImage_xz); 														//convert to Mat format
-		if(edgemap_xz == 1) {																														//edge detect
-				Canny(img_m_xz, img_m_xz, cannyLow_xz, cannyHigh_xz, 3 );
-				if(dilater_xz > 0) {   																												//if dilater = 0, just use original edgemap
-						dilate( img_m_xz, img_m_xz, Mat(), Point(-1, -1), dilater_xz, 1, 1);
-						//smooth( img_m, img_m, CV_MEDIAN, 5, 5);
-						erode( img_m_xz, img_m_xz, Mat(), Point(-1, -1), dilater_xz, 1, 1);
+				inImage_xz = cam_xz.grabAframe_xz(); 																						//unsigned char *inImage;
+				if(inImage_xz == NULL) {
+						g_print("Error in firewire stream xz! Reattempting...\n");
+						usleep((int)1e3); 																														// I don't know what the wait delay should be
 				}
-		}
 
-		if(detect_xz == 1) {																																//threshold and bounding box detection
-				blur(img_m_xz, threshold_output_xz, Size(4,4));																	//blur image to remove small blips etc
-				threshold( threshold_output_xz, threshold_output_xz, visionParam1_xz, 255, THRESH_BINARY_INV );
-				//adaptiveThreshold(img_m, threshold_output, 255,	ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV,91,0);
-				if(dilater_xz > 0) {																														//if dilater = 0, just use original edgemap
-						dilate( threshold_output_xz, threshold_output_xz, Mat(), Point(-1, -1), dilater_xz, 1, 1);
-						//smooth( img_m, img_m, CV_MEDIAN, 5, 5);
-						erode( threshold_output_xz, threshold_output_xz, Mat(), Point(-1, -1), 2*dilater_xz, 1, 1);
-						dilate( threshold_output_xz, threshold_output_xz, Mat(), Point(-1, -1), dilater_xz, 1, 1);
+				img_m_xz = Mat(height, width, CV_8UC1, inImage_xz); 														//convert to Mat format
+				if(edgemap_xz == 1) {																														//edge detect
+						Canny(img_m_xz, img_m_xz, cannyLow_xz, cannyHigh_xz, 3 );
+						if(dilater_xz > 0) {   																												//if dilater = 0, just use original edgemap
+								dilate( img_m_xz, img_m_xz, Mat(), Point(-1, -1), dilater_xz, 1, 1);
+								//smooth( img_m, img_m, CV_MEDIAN, 5, 5);
+								erode( img_m_xz, img_m_xz, Mat(), Point(-1, -1), dilater_xz, 1, 1);
+						}
 				}
-				if(binary_xz == 1) {																														//show binary image, don't do any more processing
-						cvtColor(threshold_output_xz, img_m_color_xz, CV_GRAY2BGR); 								//convert to color
-						gdk_threads_enter();																												//display video image in program window
-						gtk_image_set_from_pixbuf(videoWindow2, gdk_pixbuf_new_from_data(img_m_color_xz.data, GDK_COLORSPACE_RGB, false, 8, img_m_color_xz.cols, img_m_color_xz.rows, img_m_color_xz.step, NULL, NULL));
-						gdk_threads_leave();
-						continue; 																																	//don't do any more processing
+
+				if(detect_xz == 1) {																																//threshold and bounding box detection
+						blur(img_m_xz, threshold_output_xz, Size(4,4));																	//blur image to remove small blips etc
+						threshold( threshold_output_xz, threshold_output_xz, visionParam1_xz, 255, THRESH_BINARY_INV );
+						//adaptiveThreshold(img_m, threshold_output, 255,	ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV,91,0);
+						if(dilater_xz > 0) {																														//if dilater = 0, just use original edgemap
+								dilate( threshold_output_xz, threshold_output_xz, Mat(), Point(-1, -1), dilater_xz, 1, 1);
+								//smooth( img_m, img_m, CV_MEDIAN, 5, 5);
+								erode( threshold_output_xz, threshold_output_xz, Mat(), Point(-1, -1), 2*dilater_xz, 1, 1);
+								dilate( threshold_output_xz, threshold_output_xz, Mat(), Point(-1, -1), dilater_xz, 1, 1);
+						}
+						if(binary_xz == 1) {																														//show binary image, don't do any more processing
+								cvtColor(threshold_output_xz, img_m_color_xz, CV_GRAY2BGR); 								//convert to color
+								gdk_threads_enter();																												//display video image in program window
+								gtk_image_set_from_pixbuf(videoWindow2, gdk_pixbuf_new_from_data(img_m_color_xz.data, GDK_COLORSPACE_RGB, false, 8, img_m_color_xz.cols, img_m_color_xz.rows, img_m_color_xz.step, NULL, NULL));
+								gdk_threads_leave();
+								continue; 																																	//don't do any more processing
+						}
 				}
-		}
-		cvtColor(img_m_xz, img_m_color_xz, CV_GRAY2BGR); 																		//convert to color
 
-		// draw boundary of ROI (Region of Interest)
-		Point startP;
-		Point endP;
+				cvtColor(img_m_xz, img_m_color_xz, CV_GRAY2BGR); 																		//convert to color
+				draw_xy_magnetic_field(img_m_color_xz,580,400);
+				draw_xz_magnetic_field(img_m_color_xz,480,400);
+				draw_3d_magnetic_field(img_m_color_xz,380,400);
+				img_m_color_for_display2 = img_m_color_xz;
 
-        // this draws the x-y plane field direction and magnitude
-        startP.x = 580;
-        startP.y = 420;
-        float field_angle_xy = atan2(field_y, field_x);
-        endP.x = 580 + 40*cos(field_angle_xy);
-        endP.y = 420 - 40*sin(field_angle_xy);
-        line( img_m_color_xz, startP, endP, Scalar(255,0,0), 2, 8, 0);
-        endP.x = 580 + 40*field_x/14.0;
-        endP.y = 420 - 40*field_y/14.0;
-        circle( img_m_color_xz, endP, 2, Scalar(255,0,0), 2, 8, 0 );
-        circle( img_m_color_xz, startP, 40, Scalar(255,0,0), 1, 8, 0 );
-				// text
-        Point textpoint;
-        double fab_fontscale = 0.6;
-        Scalar fab_color = Scalar(255, 0, 0); // red
-        int fab_thickness = 1;
-        char xy_text[2];
-        sprintf(xy_text, "XY");
-        textpoint.x = 570; textpoint.y = 475;
-        putText( img_m_color_xz, xy_text, textpoint, FONT_HERSHEY_SIMPLEX, fab_fontscale, fab_color, fab_thickness);
+				gettimeofday(&tEnd_xz, NULL);
+				current_time_xz = ((double)tEnd_xz.tv_sec + (double)tEnd_xz.tv_usec*1e-6) ;
+				time_xz = (int)round( (((double)tEnd_xz.tv_sec + (double)tEnd_xz.tv_usec*1e-6) - ((double)tStart_xz.tv_sec + (double)tStart_xz.tv_usec*1e-6) )*1000.0);
+				fpsVec_xz[fpsIndex_xz++] = 1000.0/time_xz;
+				if(fpsIndex_xz > 9) fpsIndex_xz = 0;
+				fpsReceive_xz = 0;
+				for(int i = 0; i < 10; i++)
+				fpsReceive_xz += fpsVec_xz[i];
+				fpsReceive_xz /= 10.0;
+		}																																												//end vision loop due to killVisionthread==1
 
-        // this draws the x-z plane field direction and magnitude
-        startP.x = 480;
-        startP.y = 420;
-        float field_angle_xz = atan2(field_z, field_x);
-        endP.x = 480 + 40*cos(field_angle_xz);
-        endP.y = 420 - 40*sin(field_angle_xz);
-        line( img_m_color_xz, startP, endP, Scalar(255,0,0), 2, 8, 0);
-        endP.x = 480 + 40*field_x/14.0;
-        endP.y = 420 - 40*field_z/14.0;
-        circle( img_m_color_xz, endP, 2, Scalar(255,0,0), 2, 8, 0 );
-        circle( img_m_color_xz, startP, 40, Scalar(255,0,0), 1, 8, 0 );
-        //Point textpoint;
-        //double fab_fontscale = 0.6;
-        //Scalar fab_color = Scalar(255, 0, 0); // red
-        //int fab_thickness = 1;
-        char xz_text[2];
-        sprintf(xz_text, "XZ");
-        textpoint.x = 470; textpoint.y = 475;
-        putText( img_m_color_xz, xz_text, textpoint, FONT_HERSHEY_SIMPLEX, fab_fontscale, fab_color, fab_thickness);
-
-
-				// this draws 3D spherical field direction and magnitude
-				RotatedRect rRect = RotatedRect(Point2f(380,420), Size2f(80,20), 0);
-				float mag = sqrt(pow(field_x,2) + pow(field_y,2) + pow(field_z,2));
-				float magXY = sqrt(pow(field_x,2) + pow(field_y,2));
-				float p = (mag > 0) ? magXY/mag : 0;
-				printf("p is %.6f\n",p);
-				printf("X is %.6f\n",field_x);
-				printf("Y is %.6f\n",field_y);
-				printf("Z is %.6f\n",field_z);
-				RotatedRect rRectXY = RotatedRect(Point2f(380,420 - 40 * field_z / 14.0), Size2f(80 * p, 20 * p), 0);
-        startP.x = 380;
-        startP.y = 420;
-        // float field_angle_xz = atan2(field_z, field_x);
-        endP.x = 380 + 40 * p * cos(field_angle_xy);
-        endP.y = 420 - 10 * p * sin(field_angle_xy) - 40 * field_z / 14.0;
-        line( img_m_color_xz, startP, endP, Scalar(255,0,0), 2, 8, 0);
-				ellipse( img_m_color_xz, rRect, Scalar(255,0,0), 1, 8 );
-				ellipse( img_m_color_xz, rRectXY, Scalar(128,128,0), 1, 8 );
-        endP.x = 380 + 40 * p * cos(field_angle_xy) * (field_mag / 14.0);
-        endP.y = 420 - 10 * p * sin(field_angle_xy) * (field_mag / 14.0) - 40 * field_z / 14.0 * (field_mag / 14.0);
-        circle( img_m_color_xz, endP, 2, Scalar(255,0,0), 2, 8, 0 );
-        circle( img_m_color_xz, startP, 40, Scalar(255,0,0), 1, 8, 0 );
-        //Point textpoint;
-        //double fab_fontscale = 0.6;
-        //Scalar fab_color = Scalar(255, 0, 0); // red
-        //int fab_thickness = 1;
-        char xyz_text[2];
-        sprintf(xyz_text, "XYZ");
-        textpoint.x = 370; textpoint.y = 475;
-        putText( img_m_color_xz, xyz_text, textpoint, FONT_HERSHEY_SIMPLEX, fab_fontscale, fab_color, fab_thickness);
-
-
-		img_m_color_for_display2 = img_m_color_xz;
-		//gdk_threads_enter();	//display video image in program window
-		//gtk_image_set_from_pixbuf(videoWindow2, gdk_pixbuf_new_from_data(img_m_color.data, GDK_COLORSPACE_RGB, false, 8, img_m_color.cols, img_m_color.rows, img_m_color.step, NULL, NULL));
-		//gdk_threads_leave();
-
-		//imshow("this is a test2",img_m);//display video image in separate cv window
-
-		// compute 10 average fps
-		gettimeofday(&tEnd_xz, NULL);
-		current_time_xz = ((double)tEnd_xz.tv_sec + (double)tEnd_xz.tv_usec*1e-6) ;
-		time_xz = (int)round( (((double)tEnd_xz.tv_sec + (double)tEnd_xz.tv_usec*1e-6) - ((double)tStart_xz.tv_sec + (double)tStart_xz.tv_usec*1e-6) )*1000.0);
-		fpsVec_xz[fpsIndex_xz++] = 1000.0/time_xz;
-		if(fpsIndex_xz > 9) fpsIndex_xz = 0;
-		fpsReceive_xz = 0;
-		for(int i = 0; i < 10; i++)
-			fpsReceive_xz += fpsVec_xz[i];
-		fpsReceive_xz /= 10.0;
-		//g_print("  %.1f fps yz\n", fpsReceive_xz); //we now do this in the gui using a separate thread
-
-	} //end vision loop due to killVisionthread==1
-
-	cam_xz.stopGrabbingVideo_xz();
-	usleep ((int)1e5); //make sure that ImageProc_xz has closed
-	cam.deinitialize(); //taken care of by top camera deinitialize call
-
-	printf("@ the End of visionThread_xz().\n");
-	return NULL;
+		cam_xz.stopGrabbingVideo_xz();
+		usleep ((int)1e5); 																																			//make sure that ImageProc_xz has closed
+		cam.deinitialize(); 																																		//taken care of by top camera deinitialize call
+		printf("@ the End of visionThread_xz().\n");
+		return NULL;
 }
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Camera   ------------------> callback.c
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void stopVision(void)
 {
 	killVisionThread = 1;
@@ -534,9 +393,8 @@ void setdetect_vision(int d)
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// X-Z Camera
+// X-Z Camera   ------------------> callback.c
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 void setTopCam_vision(int d)
 {
 	topcam_on = d; //is the topcam on?
@@ -629,4 +487,85 @@ void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ) //click in pi
 			}
 			break;
 	}
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// OpenCV Draw Magnetic Field Indicator   --- Tianqi
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+static void draw_xy_magnetic_field (Mat img, float oX, float oY){
+		float r = 40;
+		float angleXY = atan2(field_y, field_x);
+		float fullMag = 14.0; //when field magnitude equals to this value, the end point of the vector is on the sphere
+
+		//draw figure
+		Point startP(oX,oY);
+		Point endP(oX + r * cos(angleXY), oY - r * sin(angleXY));
+		line( img, startP, endP, Scalar(255,0,0),2);
+		endP.x = oX + r * field_x / fullMag;
+		endP.y = oY - r * field_y / fullMag;
+		circle( img, endP, 2, Scalar(255,0,0),2);
+		circle( img, startP, r, Scalar(255,0,0));
+
+		//put text
+		Point textpoint;
+		textpoint.x = oX - r / 4;
+		textpoint.y = oY + 1.5 * r;
+		char text[] = "XY";
+		putText( img, text, textpoint, FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255, 0, 0));
+}
+
+static void draw_xz_magnetic_field (Mat img, float oX, float oY){
+		float r = 40;
+		float angleXZ = atan2(field_z, field_x);
+		float fullMag = 14.0; //when field magnitude equals to this value, the end point of the vector is on the sphere
+
+		//draw figure
+		Point startP(oX,oY);
+		Point endP(oX + r * cos(angleXZ), oY - r * sin(angleXZ));
+		line( img, startP, endP, Scalar(255,0,0),2);
+		endP.x = oX + r * field_x / fullMag;
+		endP.y = oY - r * field_z / fullMag;
+		circle( img, endP, 2, Scalar(255,0,0),2);
+		circle( img, startP, r, Scalar(255,0,0));
+
+		//put text
+		Point textpoint;
+		textpoint.x = oX - r / 4;
+		textpoint.y = oY + 1.5 * r;
+		char text[] = "XZ";
+		putText( img, text, textpoint, FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255, 0, 0));
+}
+
+static void draw_3d_magnetic_field (Mat img, float oX, float oY){
+		float r = 40;
+		float axisMajor = 2 * r;
+		float axisMinor = 0.5 * r;
+		float angleXY = atan2(field_y, field_x);
+		float mag = field_mag ? field_mag : 14.0;
+		float magXY = sqrt(pow(field_x,2) + pow(field_y,2));
+		float p = magXY / mag;
+		float fullMag = 14.0; //when field magnitude equals to this value, the end point of the vector is on the sphere
+
+		//draw figure
+		Point startP(oX,oY);
+		Point endP;
+		endP.x = oX + (axisMajor * 0.5) * p * cos(angleXY);
+		endP.y = oY - (axisMinor * 0.5) * p * sin(angleXY) - r * field_z / mag;
+		RotatedRect rRect = RotatedRect(Point2f(oX,oY), Size2f(axisMajor,axisMinor), 0);																	// ellipse minimum bounding rect
+		RotatedRect rRectXY = RotatedRect(Point2f(oX,oY - r * field_z / mag), Size2f(axisMajor * p, axisMinor * p), 0);
+		line( img, startP, endP, Scalar(255,0,0), 2);
+		ellipse( img, rRect, Scalar(255,0,0));
+		ellipse( img, rRectXY, Scalar(128,128,0));
+		endP.x = oX + (axisMajor * 0.5) * p * cos(angleXY) * (mag / fullMag);
+		endP.y = oY - (axisMinor * 0.5) * p * sin(angleXY) * (mag / fullMag) - r * field_z / fullMag;
+		circle( img, endP, 2, Scalar(255,0,0), 2);
+		circle( img, startP, r, Scalar(255,0,0));
+
+		//put text
+		Point textpoint;
+		textpoint.x = oX - r / 3;
+		textpoint.y = oY + 1.5 * r;
+		char text[] = "XYZ";
+		putText( img, text, textpoint, FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255, 0, 0));
 }

@@ -14,6 +14,20 @@
 
 ![Click here for the image](Misc/coil_connection.png)
 
+## Power Supply (PSU)
+Please refer to "/Misc/"
+
+|PSU #|Amplifier #|Voltage(V)|Note|
+|:---:|:---:|:---:|:---:|
+|1|1|24|AMC PSU (acrylic case)|
+|2|2|24|AMC PSU (acrylic case)|
+|3|3|24|AMC PSU (acrylic case)|
+|4|4|24|small XP PSU (wooden case)|
+|5|5|72|big XP PSU (wooden case)|
+|5|6|72|big XP PSU (wooden case)|
+|5|7|72|big XP PSU (wooden case)|
+|5|8|72|big XP PSU (wooden case)|
+
 ## Introduction
 
 "Coil-System-Core" is a program to drive the 6-input coil system that is mainly written in C.  

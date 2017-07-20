@@ -726,23 +726,23 @@ void on_field3_fab_changed (GtkEditable *editable, gpointer user_data) {
 void on_field_mag_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
 	set_field_mag_fab (d);
-  // set_field_xyz_angle ();
+  set_field_xyz_angle ();
 }
 
 void on_xy_3d_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-    set_field_xyz ( 0, field_mag_fab * cosd(d) );
-    set_field_xyz ( 1, field_mag_fab * sind(d) );
+    // set_field_xyz ( 0, field_mag_fab * cosd(d) );
+    // set_field_xyz ( 1, field_mag_fab * sind(d) );
   set_field_angle_xy (d);
-  // set_field_xyz_angle ();
+  set_field_xyz_angle ();
 }
 
 void on_xz_3d_fab_changed (GtkEditable *editable, gpointer user_data) {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-    set_field_xyz ( 0, field_mag_fab * cosd(d) );
-    set_field_xyz ( 2, field_mag_fab * sind(d) );
-  // set_field_angle_xz (d);
-  // set_field_xyz_angle ();
+    // set_field_xyz ( 0, field_mag_fab * cosd(d) );
+    // set_field_xyz ( 2, field_mag_fab * sind(d) );
+  set_field_angle_xz (d);
+  set_field_xyz_angle ();
 }
 
 void on_reset_field_button_clicked (GtkWidget *widget, gpointer data) {

@@ -16,6 +16,7 @@
 #include <stdio.h>
 #include <math.h>
 
+
 // discrete bending control
 void init_discrete_bending(void);
 void stop_discrete_bending(void);
@@ -106,10 +107,7 @@ void stop_cut_off (void);
 // field control
 void set_factor(int);
 void set_field_xyz (int, float);
-// void set_field_xyz_angle (void);
 void set_field_mag_fab (float);
-void set_field_angle_xy (float);
-// void set_field_angle_xz (float);
 void set_field_polar (float, float);
 
 #endif // TEMPFEEDING

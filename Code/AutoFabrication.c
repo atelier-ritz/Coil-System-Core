@@ -79,7 +79,6 @@ bool coil_3d = true, coil_2d_xz = false;
 float factor_x = 5.0964, factor_y = 4.999, factor_z = 5.1677;
 float field_mag_fab = 14.0;
 float field_x = 0.0, field_y = 0.0, field_z = 0.0, field_mag = 14.0, field_angle = -90.0;
-static float fieldAngleXY = 0.0, fieldAngleXZ = 0.0;
 float field_angle_m = 0.0; // field_angle in magnet coordinate
 
 // pin assignments for motor driver
@@ -91,6 +90,7 @@ const int stepPin = 4;
 const int dirPin = 5;
 
 AccelStepper Stepper1 (1, stepPin, dirPin); //make Stepper1 object
+
 
 // discrete bending thread (torque angle control, constant magnitude)
 void* discrete_bending_thread (void*threadid){
@@ -1326,17 +1326,6 @@ void set_field_xyz (int index, float d) // indices 123 -> xyz. for 3d, controlle
 	field_angle_m = field2magnet_angle(field_angle);
 }
 
-// void set_field_xyz_angle (void) {
-//   field_z = field_mag_fab * sind(field_angle_xz);
-//   field_y = field_mag_fab * cosd(field_angle_xz) * sind(field_angle_xy);
-//   field_x = field_mag_fab * cosd(field_angle_xz) * cosd(field_angle_xy);
-//   set_coil_current_to (0, field_x);
-//   set_coil_current_to (1, field_y);
-//   set_coil_current_to (2, field_z);
-// 	field_angle = atan2(field_z, field_x) * 180.0/M_PI; // atan2() => (-pi, pi]
-// 	field_angle_m = field2magnet_angle(field_angle);
-// }
-
 void set_field_mag_fab (float d) {
     float field_mag_old = field_mag_fab;
     field_mag_fab = d;
@@ -1344,15 +1333,6 @@ void set_field_mag_fab (float d) {
     set_field_xyz( 1, field_y * d / field_mag_old );
     set_field_xyz( 2, field_z * d / field_mag_old );
 }
-
-void set_field_angle_xy (float d) {
-  fieldAngleXY = d;
-}
-//
-// void set_field_angle_xz (float d) {
-//   fieldAngleXZ = d;
-// }
-
 void set_field_polar (float magnitude, float angle)
 {
     set_field_xyz( 0, magnitude * cos(angle * M_PI/180.0) );

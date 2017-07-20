@@ -82,6 +82,7 @@ bool flag_cut_off = false;
 bool coil_3d = true, coil_2d_xz = false;
 float factor_x = 5.0964, factor_y = 4.999, factor_z = 5.1677;
 float field_mag_fab = 14.0;
+static float fieldAngleXY = 0.0, fieldAngleXZ = 0.0;
 float field_x, field_y, field_z, field_mag, field_angle = -90.0;
 float field_angle_m = 0.0; // field_angle in magnet coordinate
 
@@ -128,12 +129,12 @@ void* circ_twisting_field_walk_thread (void*threadid)
 
             gettimeofday(&start, NULL);
             time_last = (double) start.tv_sec + start.tv_usec*1e-6 ;
-			
-			 
+
+
 			theta_local = theta;
 			beta_local = beta;
 			phi_local = phi;
-			omega_local = omega; 
+			omega_local = omega;
 
 
 			vx = Bmag * ((cosd(theta_local)*cosd(beta_local))*(cosd(90-phi_local*0.5)*cosd(360.0*omega_local*time_elapsed)) - sind(theta_local)*(cosd(90-phi_local*0.5)*sind(360.0*omega_local*time_elapsed)) + cosd(theta_local)*sind(beta_local)*cosd(phi_local*0.5));
@@ -141,7 +142,7 @@ void* circ_twisting_field_walk_thread (void*threadid)
 			vz = Bmag * (-sind(beta_local)*(cosd(90-phi_local*0.5)*cosd(360.0*omega_local*time_elapsed)) + cosd(beta_local)*cosd(phi_local*0.5));
 
             set_field_xyz_2 (vx, vy, vz, 0.0, 0.0, 0.0);
-			
+
             field_x = vx;
             field_y = vy;
             field_z = vz;
@@ -150,7 +151,7 @@ void* circ_twisting_field_walk_thread (void*threadid)
 			beta_localp = beta_local;
 			phi_localp = phi_local;
 			omega_localp = omega_local;*/
-			
+
             time_elapsed = time_last - time_initial -time_out;
             time_out_sum = time_out;
         }
@@ -1633,6 +1634,16 @@ void set_field_xyz (int index, float d) // indices 123 -> xyz. for 3d, controlle
 	field_angle_m = field2magnet_angle(field_angle);
 }
 
+void set_field_xyz_angle (void) {
+  field_z = field_mag_fab * sind(fieldAngleXZ);
+  field_y = field_mag_fab * cosd(fieldAngleXZ) * sind(fieldAngleXY);
+  field_x = field_mag_fab * cosd(fieldAngleXZ) * cosd(fieldAngleXY);
+  set_coil_current_to (0, field_x);
+  set_coil_current_to (1, field_y);
+  set_coil_current_to (2, field_z);
+	field_angle = atan2(field_z, field_x) * 180.0/M_PI; // atan2() => (-pi, pi]
+	field_angle_m = field2magnet_angle(field_angle);
+}
 
 
 void set_field_mag_fab (float d)
@@ -1642,6 +1653,14 @@ void set_field_mag_fab (float d)
     set_field_xyz( 0, field_x * d / field_mag_old );
     set_field_xyz( 1, field_y * d / field_mag_old );
     set_field_xyz( 2, field_z * d / field_mag_old );
+}
+
+void set_field_angle_xy (float d) {
+  fieldAngleXY = d;
+}
+
+void set_field_angle_xz (float d) {
+  fieldAngleXZ = d;
 }
 
 void set_field_polar (float magnitude, float angle)

@@ -1,7 +1,7 @@
 #ifndef COILFIELDCONTROL
 #define COILFIELDCONTROL
 
-#include "constantValue.h"     
+#include "constantValue.h"
 #include "s826_subroutine.h"
 #include "vision.h"
 # include "math_subroutine.h"
