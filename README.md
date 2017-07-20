@@ -12,7 +12,7 @@
 |0|6|X - Out left|5.003|
 |6|7|Not Used|Not Used|
 
-![Click here for the image](Misc/coil_connection.png)
+![Click here for the image](Images/coil_connection.png)
 
 ## Power Supply (PSU)
 
@@ -30,7 +30,13 @@
 
 === ATTENTION ===
 
-The big XP PSU uses 220V AC input. It must be plugged at the designated outlet. Make sure the fuse at the hallway is turned on. For more details, refer to the images in /Misc directory.
+The big XP PSU uses 220V AC input. It must be plugged at the designated outlet. Make sure the fuse at the hallway is turned on. For more details, refer to the images in /Images directory.
+
+![Click here for the image](Images/220V_outlet)
+
+![Click here for the image](Images/fuse_of_outlet.png)
+
+![Click here for the image](Images/PSU_Number.png)
 
 ## Introduction
 
