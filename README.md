@@ -15,7 +15,6 @@
 ![Click here for the image](Misc/coil_connection.png)
 
 ## Power Supply (PSU)
-Please refer to "/Misc/"
 
 |PSU #|Amplifier #|Voltage(V)|Note|
 |:---:|:---:|:---:|:---:|
@@ -27,6 +26,9 @@ Please refer to "/Misc/"
 |5|6|72|big XP PSU (wooden case)|
 |5|7|72|big XP PSU (wooden case)|
 |5|8|72|big XP PSU (wooden case)|
+
+* <p style='color:red'>ATTENTION: the big XP PSU uses 220V AC input. It must be plugged at the designated outlet, and make sure the fuse at the hallway is turned on.</p> 
+Switch 13 and 15
 
 ## Introduction
 

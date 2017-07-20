@@ -480,6 +480,9 @@
                                     <property name="ypad">4</property>
                                     <property name="label" translatable="yes">&lt;  Simple Control  &gt;</property>
                                     <property name="single_line_mode">True</property>
+                                    <attributes>
+                                      <attribute name="weight" value="bold"/>
+                                    </attributes>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -2737,439 +2740,13 @@
                 <property name="visible">True</property>
                 <property name="can_focus">False</property>
                 <child>
-                  <object class="GtkTable" id="videoControlTable">
+                  <object class="GtkLabel" id="Vision Control">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="border_width">1</property>
-                    <property name="n_rows">13</property>
-                    <property name="n_columns">2</property>
-                    <child>
-                      <object class="GtkVSeparator" id="vseparator2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="bottom_attach">13</property>
-                        <property name="x_options"/>
-                        <property name="x_padding">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox3">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="cannyLowLabel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">cannyLow</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="cannyLow">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">cannylowAdjustment</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_cannyLow_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox5">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="cannyHighLabel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">cannyhigh</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="cannyHigh">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">cannyhighAdjustment</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_cannyHigh_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox6">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="gainLabel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">gain:</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="gain">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">gainAdjustment</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_gain_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">9</property>
-                        <property name="bottom_attach">10</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox7">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="shutterLabel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">shutter:</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="shutter">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">shutterAdjustment</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_shutter_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">10</property>
-                        <property name="bottom_attach">11</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox8">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="dilateLabel">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">dilation:</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="dilate">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">dilateAdjustment</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_dilate_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHSeparator" id="hseparator2">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="top_attach">4</property>
-                        <property name="bottom_attach">5</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox9">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="visionParam1Label">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">visionParam1</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="visionParam1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">visionParam1Adjustment</property>
-                            <property name="climb_rate">1</property>
-                            <signal name="changed" handler="on_visionParam1_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">5</property>
-                        <property name="bottom_attach">6</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox10">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="visionParam2Label">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">visionParam2</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="visionParam2">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">visionParam2Adjustment</property>
-                            <property name="climb_rate">1</property>
-                            <signal name="changed" handler="on_visionParam2_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">6</property>
-                        <property name="bottom_attach">7</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHSeparator" id="hseparator3">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="top_attach">8</property>
-                        <property name="bottom_attach">9</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="detect">
-                        <property name="label" translatable="yes">detect?</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_detect_toggled" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="top_attach">7</property>
-                        <property name="bottom_attach">8</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox11">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkLabel" id="labelFPSreceive">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">N/A</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="rateLabel2">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">FPS</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">11</property>
-                        <property name="bottom_attach">12</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox29">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkCheckButton" id="edgemap">
-                            <property name="label" translatable="yes">edgem</property>
-                            <property name="width_request">75</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
-                            <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_edgemap_toggled" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkCheckButton" id="binary">
-                            <property name="label" translatable="yes">binary</property>
-                            <property name="width_request">70</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
-                            <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_binary_toggled" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                    </child>
-                    <child>
-                      <placeholder/>
-                    </child>
+                    <property name="label" translatable="yes">OpenCV Image Process&gt;</property>
+                    <attributes>
+                      <attribute name="weight" value="bold"/>
+                    </attributes>
                   </object>
                   <packing>
                     <property name="expand">True</property>
@@ -3178,463 +2755,1013 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkTable" id="videoControlTable_xz">
+                  <object class="GtkHSeparator" id="hseparator1">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="border_width">1</property>
-                    <property name="n_rows">14</property>
-                    <property name="n_columns">2</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="padding">1</property>
+                    <property name="position">1</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <object class="GtkFrame" id="frame1">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">none</property>
                     <child>
-                      <object class="GtkVSeparator" id="vseparator4">
+                      <object class="GtkAlignment" id="alignment1">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="left_attach">1</property>
-                        <property name="right_attach">2</property>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">14</property>
-                        <property name="x_options"/>
-                        <property name="x_padding">1</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox30">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
+                        <property name="left_padding">12</property>
                         <child>
-                          <object class="GtkLabel" id="cannyLowLabel1">
+                          <object class="GtkTable" id="videoControlTable">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">cannyLow</property>
+                            <property name="border_width">1</property>
+                            <property name="n_rows">13</property>
+                            <property name="n_columns">2</property>
+                            <child>
+                              <object class="GtkVSeparator" id="vseparator2">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="bottom_attach">13</property>
+                                <property name="x_options"/>
+                                <property name="x_padding">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox3">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="cannyLowLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">cannyLow</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="cannyLow">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">cannylowAdjustment</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_cannyLow_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox5">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="cannyHighLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">cannyhigh</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="cannyHigh">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">cannyhighAdjustment</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_cannyHigh_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">2</property>
+                                <property name="bottom_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox6">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="gainLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">gain:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="gain">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">gainAdjustment</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_gain_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">9</property>
+                                <property name="bottom_attach">10</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox7">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="shutterLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">shutter:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="shutter">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">shutterAdjustment</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_shutter_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">10</property>
+                                <property name="bottom_attach">11</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox8">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="dilateLabel">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">dilation:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="dilate">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">dilateAdjustment</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_dilate_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">3</property>
+                                <property name="bottom_attach">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHSeparator" id="hseparator2">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">4</property>
+                                <property name="bottom_attach">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox9">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="visionParam1Label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">visionParam1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="visionParam1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">visionParam1Adjustment</property>
+                                    <property name="climb_rate">1</property>
+                                    <signal name="changed" handler="on_visionParam1_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">5</property>
+                                <property name="bottom_attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox10">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="visionParam2Label">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">visionParam2</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="visionParam2">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">visionParam2Adjustment</property>
+                                    <property name="climb_rate">1</property>
+                                    <signal name="changed" handler="on_visionParam2_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">6</property>
+                                <property name="bottom_attach">7</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHSeparator" id="hseparator3">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">8</property>
+                                <property name="bottom_attach">9</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="detect">
+                                <property name="label" translatable="yes">detect?</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="on_detect_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="top_attach">7</property>
+                                <property name="bottom_attach">8</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox11">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkLabel" id="labelFPSreceive">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">N/A</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="rateLabel2">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">FPS</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">11</property>
+                                <property name="bottom_attach">12</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox29">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkCheckButton" id="edgemap">
+                                    <property name="label" translatable="yes">edgem</property>
+                                    <property name="width_request">75</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_edgemap_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="binary">
+                                    <property name="label" translatable="yes">binary</property>
+                                    <property name="width_request">70</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_binary_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
                           </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="cannyLow1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">cannylowAdjustment_xz</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_cannyLow_xz_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
                         </child>
                       </object>
-                      <packing>
-                        <property name="top_attach">2</property>
-                        <property name="bottom_attach">3</property>
-                      </packing>
                     </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox31">
+                    <child type="label">
+                      <object class="GtkLabel" id="label5">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="cannyHighLabel1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">cannyhigh</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="cannyHigh1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">cannyhighAdjustment_xz</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_cannyHigh_xz_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
+                        <property name="label" translatable="yes">&lt;b&gt;Camera1&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
                       </object>
-                      <packing>
-                        <property name="top_attach">3</property>
-                        <property name="bottom_attach">4</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox32">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="gainLabel1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">gain:</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="gain1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">gainAdjustment_xz</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_gain_xz_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">10</property>
-                        <property name="bottom_attach">11</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox33">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="shutterLabel1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">shutter:</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="shutter1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">shutterAdjustment_xz</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_shutter_xz_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">11</property>
-                        <property name="bottom_attach">12</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox34">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="dilateLabel1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">dilation:</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="dilate1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">dilateAdjustment_xz</property>
-                            <property name="climb_rate">10</property>
-                            <signal name="changed" handler="on_dilate_xz_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">4</property>
-                        <property name="bottom_attach">5</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHSeparator" id="hseparator4">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="top_attach">5</property>
-                        <property name="bottom_attach">6</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox35">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="visionParam1Label1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">visionParam1</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="visionParam3">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">visionParam1Adjustment_xz</property>
-                            <property name="climb_rate">1</property>
-                            <signal name="changed" handler="on_visionParam1_xz_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">6</property>
-                        <property name="bottom_attach">7</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox36">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <property name="homogeneous">True</property>
-                        <child>
-                          <object class="GtkLabel" id="visionParam2Label1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">visionParam2</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkSpinButton" id="visionParam4">
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="invisible_char">•</property>
-                            <property name="invisible_char_set">True</property>
-                            <property name="primary_icon_activatable">False</property>
-                            <property name="secondary_icon_activatable">False</property>
-                            <property name="primary_icon_sensitive">True</property>
-                            <property name="secondary_icon_sensitive">True</property>
-                            <property name="adjustment">visionParam2Adjustment_xz</property>
-                            <property name="climb_rate">1</property>
-                            <signal name="changed" handler="on_visionParam2_xz_changed" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">7</property>
-                        <property name="bottom_attach">8</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHSeparator" id="hseparator5">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                      </object>
-                      <packing>
-                        <property name="top_attach">9</property>
-                        <property name="bottom_attach">10</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="detect1">
-                        <property name="label" translatable="yes">detect?</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_detect_xz_toggled" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="top_attach">8</property>
-                        <property name="bottom_attach">9</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox37">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkLabel" id="labelFPSreceive_xz">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">N/A</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkLabel" id="rateLabel1">
-                            <property name="visible">True</property>
-                            <property name="can_focus">False</property>
-                            <property name="label" translatable="yes">FPS</property>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">12</property>
-                        <property name="bottom_attach">13</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkHBox" id="hbox39">
-                        <property name="visible">True</property>
-                        <property name="can_focus">False</property>
-                        <child>
-                          <object class="GtkCheckButton" id="edgemap_xz">
-                            <property name="label" translatable="yes">edgem</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
-                            <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_edgemap_xz_toggled" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkCheckButton" id="binary1">
-                            <property name="label" translatable="yes">binary</property>
-                            <property name="visible">True</property>
-                            <property name="can_focus">True</property>
-                            <property name="receives_default">False</property>
-                            <property name="use_action_appearance">False</property>
-                            <property name="draw_indicator">True</property>
-                            <signal name="toggled" handler="on_binary_xz_toggled" swapped="no"/>
-                          </object>
-                          <packing>
-                            <property name="expand">True</property>
-                            <property name="fill">True</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                      </object>
-                      <packing>
-                        <property name="top_attach">1</property>
-                        <property name="bottom_attach">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <object class="GtkCheckButton" id="topcam_on">
-                        <property name="label" translatable="yes">top cam on</property>
-                        <property name="visible">True</property>
-                        <property name="can_focus">True</property>
-                        <property name="receives_default">False</property>
-                        <property name="use_action_appearance">False</property>
-                        <property name="active">True</property>
-                        <property name="draw_indicator">True</property>
-                        <signal name="toggled" handler="on_topcam_on_toggled" swapped="no"/>
-                      </object>
-                      <packing>
-                        <property name="right_attach">2</property>
-                      </packing>
-                    </child>
-                    <child>
-                      <placeholder/>
                     </child>
                   </object>
                   <packing>
                     <property name="expand">True</property>
                     <property name="fill">True</property>
-                    <property name="position">1</property>
+                    <property name="position">3</property>
                   </packing>
+                </child>
+                <child>
+                  <object class="GtkHSeparator" id="hseparator7">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                  </object>
+                  <packing>
+                    <property name="expand">False</property>
+                    <property name="fill">True</property>
+                    <property name="padding">1</property>
+                    <property name="position">4</property>
+                  </packing>
+                </child>
+                <child>
+                  <object class="GtkFrame" id="frame2">
+                    <property name="visible">True</property>
+                    <property name="can_focus">False</property>
+                    <property name="label_xalign">0</property>
+                    <property name="shadow_type">none</property>
+                    <child>
+                      <object class="GtkAlignment" id="alignment2">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="left_padding">12</property>
+                        <child>
+                          <object class="GtkTable" id="videoControlTable_xz">
+                            <property name="visible">True</property>
+                            <property name="can_focus">False</property>
+                            <property name="border_width">1</property>
+                            <property name="n_rows">14</property>
+                            <property name="n_columns">2</property>
+                            <child>
+                              <object class="GtkVSeparator" id="vseparator4">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="left_attach">1</property>
+                                <property name="right_attach">2</property>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">14</property>
+                                <property name="x_options"/>
+                                <property name="x_padding">1</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox30">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="cannyLowLabel1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">cannyLow</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="cannyLow1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">cannylowAdjustment_xz</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_cannyLow_xz_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">2</property>
+                                <property name="bottom_attach">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox31">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="cannyHighLabel1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">cannyhigh</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="cannyHigh1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">cannyhighAdjustment_xz</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_cannyHigh_xz_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">3</property>
+                                <property name="bottom_attach">4</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox32">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="gainLabel1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">gain:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="gain1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">gainAdjustment_xz</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_gain_xz_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">10</property>
+                                <property name="bottom_attach">11</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox33">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="shutterLabel1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">shutter:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="shutter1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">shutterAdjustment_xz</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_shutter_xz_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">11</property>
+                                <property name="bottom_attach">12</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox34">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="dilateLabel1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">dilation:</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="dilate1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">dilateAdjustment_xz</property>
+                                    <property name="climb_rate">10</property>
+                                    <signal name="changed" handler="on_dilate_xz_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">4</property>
+                                <property name="bottom_attach">5</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHSeparator" id="hseparator4">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">5</property>
+                                <property name="bottom_attach">6</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox35">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="visionParam1Label1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">visionParam1</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="visionParam3">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">visionParam1Adjustment_xz</property>
+                                    <property name="climb_rate">1</property>
+                                    <signal name="changed" handler="on_visionParam1_xz_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">6</property>
+                                <property name="bottom_attach">7</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox36">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <property name="homogeneous">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="visionParam2Label1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">visionParam2</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkSpinButton" id="visionParam4">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="invisible_char">•</property>
+                                    <property name="invisible_char_set">True</property>
+                                    <property name="primary_icon_activatable">False</property>
+                                    <property name="secondary_icon_activatable">False</property>
+                                    <property name="primary_icon_sensitive">True</property>
+                                    <property name="secondary_icon_sensitive">True</property>
+                                    <property name="adjustment">visionParam2Adjustment_xz</property>
+                                    <property name="climb_rate">1</property>
+                                    <signal name="changed" handler="on_visionParam2_xz_changed" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">7</property>
+                                <property name="bottom_attach">8</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHSeparator" id="hseparator5">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                              </object>
+                              <packing>
+                                <property name="top_attach">9</property>
+                                <property name="bottom_attach">10</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="detect1">
+                                <property name="label" translatable="yes">detect?</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="on_detect_xz_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="top_attach">8</property>
+                                <property name="bottom_attach">9</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox37">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkLabel" id="labelFPSreceive_xz">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">N/A</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkLabel" id="rateLabel1">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">FPS</property>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">12</property>
+                                <property name="bottom_attach">13</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkHBox" id="hbox39">
+                                <property name="visible">True</property>
+                                <property name="can_focus">False</property>
+                                <child>
+                                  <object class="GtkCheckButton" id="edgemap_xz">
+                                    <property name="label" translatable="yes">edgem</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_edgemap_xz_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">0</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="binary1">
+                                    <property name="label" translatable="yes">binary</property>
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="use_action_appearance">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <signal name="toggled" handler="on_binary_xz_toggled" swapped="no"/>
+                                  </object>
+                                  <packing>
+                                    <property name="expand">True</property>
+                                    <property name="fill">True</property>
+                                    <property name="position">1</property>
+                                  </packing>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="top_attach">1</property>
+                                <property name="bottom_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="topcam_on">
+                                <property name="label" translatable="yes">top cam on</property>
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="use_action_appearance">False</property>
+                                <property name="active">True</property>
+                                <property name="draw_indicator">True</property>
+                                <signal name="toggled" handler="on_topcam_on_toggled" swapped="no"/>
+                              </object>
+                              <packing>
+                                <property name="right_attach">2</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <placeholder/>
+                            </child>
+                          </object>
+                        </child>
+                      </object>
+                    </child>
+                    <child type="label">
+                      <object class="GtkLabel" id="label25">
+                        <property name="visible">True</property>
+                        <property name="can_focus">False</property>
+                        <property name="label" translatable="yes">&lt;b&gt;Camera2&lt;/b&gt;</property>
+                        <property name="use_markup">True</property>
+                      </object>
+                    </child>
+                  </object>
+                  <packing>
+                    <property name="expand">True</property>
+                    <property name="fill">True</property>
+                    <property name="position">5</property>
+                  </packing>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
+                </child>
+                <child>
+                  <placeholder/>
                 </child>
                 <child>
                   <placeholder/>
