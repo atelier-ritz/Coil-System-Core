@@ -77,8 +77,8 @@ bool flag_cut_off = false;
 //field control
 bool coil_3d = true, coil_2d_xz = false;
 float factor_x = 5.0964, factor_y = 4.999, factor_z = 5.1677;
-float field_mag_fab = 14.0;
-float field_x = 0.0, field_y = 0.0, field_z = 0.0, field_mag = 14.0, field_angle = -90.0;
+float field_mag_fab = 0.0;
+float field_x = 0.0, field_y = 0.0, field_z = 0.0, field_mag = 0.0, field_angle = 0.0;
 float field_angle_m = 0.0; // field_angle in magnet coordinate
 
 // pin assignments for motor driver

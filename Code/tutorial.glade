@@ -179,7 +179,6 @@
   </object>
   <object class="GtkAdjustment" id="ad_field_mag_fab">
     <property name="upper">14</property>
-    <property name="value">14</property>
     <property name="step_increment">0.10000000000000001</property>
     <property name="page_increment">10</property>
   </object>
@@ -537,18 +536,14 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <child>
-                                  <object class="GtkRadioButton" id="radiobutton1">
-                                    <property name="label" translatable="yes">XYZ mode</property>
+                                  <object class="GtkLabel" id="label1">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
-                                    <property name="draw_indicator">True</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">XYZ mode</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
                                     <property name="fill">True</property>
-                                    <property name="padding">18</property>
                                     <property name="position">0</property>
                                   </packing>
                                 </child>
@@ -718,14 +713,10 @@
                                 <property name="visible">True</property>
                                 <property name="can_focus">False</property>
                                 <child>
-                                  <object class="GtkRadioButton" id="radiobutton2">
-                                    <property name="label" translatable="yes">Magnitude mode</property>
+                                  <object class="GtkLabel" id="label27">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                    <property name="use_action_appearance">False</property>
-                                    <property name="draw_indicator">True</property>
-                                    <property name="group">radiobutton1</property>
+                                    <property name="can_focus">False</property>
+                                    <property name="label" translatable="yes">Angle mode</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -814,7 +805,7 @@
                                   <object class="GtkLabel" id="AnglePhiControl1">
                                     <property name="visible">True</property>
                                     <property name="can_focus">False</property>
-                                    <property name="label" translatable="yes">X-Z (deg)</property>
+                                    <property name="label" translatable="yes">XY-Z (deg)</property>
                                   </object>
                                   <packing>
                                     <property name="expand">True</property>
@@ -2743,7 +2734,7 @@
                   <object class="GtkLabel" id="Vision Control">
                     <property name="visible">True</property>
                     <property name="can_focus">False</property>
-                    <property name="label" translatable="yes">OpenCV Image Process&gt;</property>
+                    <property name="label" translatable="yes">&lt;OpenCV Image Process&gt;</property>
                     <attributes>
                       <attribute name="weight" value="bold"/>
                     </attributes>
@@ -3775,15 +3766,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVSeparator" id="vseparator1">
-                <property name="visible">True</property>
-                <property name="can_focus">False</property>
-              </object>
-              <packing>
-                <property name="left_attach">1</property>
-                <property name="right_attach">2</property>
-                <property name="x_padding">3</property>
-              </packing>
+              <placeholder/>
             </child>
             <child>
               <placeholder/>

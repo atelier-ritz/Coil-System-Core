@@ -110,10 +110,8 @@ void stop_cut_off (void);
 // field control
 void set_factor(int);
 void set_field_xyz (int, float);
-void set_field_xyz_angle (void);
-void set_field_mag_fab (float);
-void set_field_angle_xy (float);
-void set_field_angle_xz (float);
+void set_field_mode_xyz (float, float, float);
+void set_field_mode_angle (float, float, float);
 void set_field_polar (float, float);
 
 // twisting field walking

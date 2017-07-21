@@ -81,9 +81,9 @@ bool flag_cut_off = false;
 //field control
 bool coil_3d = true, coil_2d_xz = false;
 float factor_x = 5.0964, factor_y = 4.999, factor_z = 5.1677;
-float field_mag_fab = 14.0;
+float field_mag_fab = 0.0;
 static float fieldAngleXY = 0.0, fieldAngleXZ = 0.0;
-float field_x, field_y, field_z, field_mag, field_angle = -90.0;
+float field_x, field_y, field_z, field_mag, field_angle = 0.0;
 float field_angle_m = 0.0; // field_angle in magnet coordinate
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -1634,33 +1634,19 @@ void set_field_xyz (int index, float d) // indices 123 -> xyz. for 3d, controlle
 	field_angle_m = field2magnet_angle(field_angle);
 }
 
-void set_field_xyz_angle (void) {
-  field_z = field_mag_fab * sind(fieldAngleXZ);
-  field_y = field_mag_fab * cosd(fieldAngleXZ) * sind(fieldAngleXY);
-  field_x = field_mag_fab * cosd(fieldAngleXZ) * cosd(fieldAngleXY);
-  set_coil_current_to (0, field_x);
-  set_coil_current_to (1, field_y);
-  set_coil_current_to (2, field_z);
-	field_angle = atan2(field_z, field_x) * 180.0/M_PI; // atan2() => (-pi, pi]
-	field_angle_m = field2magnet_angle(field_angle);
+void set_field_mode_xyz(float x,float y,float z) {
+  set_field_xyz (0, x);
+  set_field_xyz (1, y);
+  set_field_xyz (2, z);
 }
 
-
-void set_field_mag_fab (float d)
-{
-    float field_mag_old = field_mag_fab;
-    field_mag_fab = d;
-    set_field_xyz( 0, field_x * d / field_mag_old );
-    set_field_xyz( 1, field_y * d / field_mag_old );
-    set_field_xyz( 2, field_z * d / field_mag_old );
-}
-
-void set_field_angle_xy (float d) {
-  fieldAngleXY = d;
-}
-
-void set_field_angle_xz (float d) {
-  fieldAngleXZ = d;
+void set_field_mode_angle(float mag,float xy,float xz) {
+  float z = mag * sind(xz);
+  float y = mag * cosd(xz) * sind(xy);
+  float x = mag * cosd(xz) * cosd(xy);
+  set_field_xyz (0, x);
+  set_field_xyz (1, y);
+  set_field_xyz (2, z);
 }
 
 void set_field_polar (float magnitude, float angle)

@@ -32,6 +32,8 @@ GtkLabel  *label_info_type, *label_info_plane, *label_info_angle;   // Label nea
 GtkLabel  *label_current_temp; // label showing current temperature
 GtkLabel  *label_sampled_area, *label_current_area; // label showing magnet areas
 
+GtkWidget *field1_fab, *field2_fab, *field3_fab, *g_field_mag_fab, *xy_3d_fab, *xz_3d_fab;
+
 float GUI_field_angle = 0;   // Storing the angle of current field for GUI display
 
 
@@ -708,48 +710,73 @@ void on_cb_coil_selection_changed(GtkComboBox *combo_box, gpointer user_data) {
     set_factor(d); // d=1, 3D coil system; d=0 2D coil system
 }
 
+// <simple control> module - Tianqi
+static void gui_clear_field_mode_xyz (void) {
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(field1_fab), 0.0);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(field2_fab), 0.0);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(field3_fab), 0.0);
+}
+
+static void gui_clear_field_mode_angle (void) {
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(g_field_mag_fab), 0.0);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(xy_3d_fab), 0.0);
+    gtk_spin_button_set_value(GTK_SPIN_BUTTON(xz_3d_fab), 0.0);
+}
+
 void on_field1_fab_changed (GtkEditable *editable, gpointer user_data) {
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	set_field_xyz (0, d);
+  gui_clear_field_mode_angle();
+  float x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field1_fab));
+  float y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field2_fab));
+  float z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field3_fab));
+  set_field_mode_xyz(x,y,z);
 }
 
 void on_field2_fab_changed (GtkEditable *editable, gpointer user_data) {
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	set_field_xyz (1, d);
+  gui_clear_field_mode_angle();
+  float x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field1_fab));
+  float y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field2_fab));
+  float z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field3_fab));
+  set_field_mode_xyz(x,y,z);
 }
 
 void on_field3_fab_changed (GtkEditable *editable, gpointer user_data) {
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	set_field_xyz (2, d);
+  gui_clear_field_mode_angle();
+  float x = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field1_fab));
+  float y = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field2_fab));
+  float z = gtk_spin_button_get_value(GTK_SPIN_BUTTON(field3_fab));
+  set_field_mode_xyz(x,y,z);
 }
 
 void on_field_mag_fab_changed (GtkEditable *editable, gpointer user_data) {
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	set_field_mag_fab (d);
-  set_field_xyz_angle ();
+  gui_clear_field_mode_xyz();
+  float mag = gtk_spin_button_get_value(GTK_SPIN_BUTTON(g_field_mag_fab));
+  float xy = gtk_spin_button_get_value(GTK_SPIN_BUTTON(xy_3d_fab));
+  float xz = gtk_spin_button_get_value(GTK_SPIN_BUTTON(xz_3d_fab));
+  set_field_mode_angle(mag,xy,xz);
 }
 
 void on_xy_3d_fab_changed (GtkEditable *editable, gpointer user_data) {
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-    // set_field_xyz ( 0, field_mag_fab * cosd(d) );
-    // set_field_xyz ( 1, field_mag_fab * sind(d) );
-  set_field_angle_xy (d);
-  set_field_xyz_angle ();
+  gui_clear_field_mode_xyz();
+  float mag = gtk_spin_button_get_value(GTK_SPIN_BUTTON(g_field_mag_fab));
+  float xy = gtk_spin_button_get_value(GTK_SPIN_BUTTON(xy_3d_fab));
+  float xz = gtk_spin_button_get_value(GTK_SPIN_BUTTON(xz_3d_fab));
+  set_field_mode_angle(mag,xy,xz);
 }
 
 void on_xz_3d_fab_changed (GtkEditable *editable, gpointer user_data) {
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-    // set_field_xyz ( 0, field_mag_fab * cosd(d) );
-    // set_field_xyz ( 2, field_mag_fab * sind(d) );
-  set_field_angle_xz (d);
-  set_field_xyz_angle ();
+  gui_clear_field_mode_xyz();
+  float mag = gtk_spin_button_get_value(GTK_SPIN_BUTTON(g_field_mag_fab));
+  float xy = gtk_spin_button_get_value(GTK_SPIN_BUTTON(xy_3d_fab));
+  float xz = gtk_spin_button_get_value(GTK_SPIN_BUTTON(xz_3d_fab));
+  set_field_mode_angle(mag,xy,xz);
 }
 
 void on_reset_field_button_clicked (GtkWidget *widget, gpointer data) {
-   	set_field_xyz (0, 0);
-   	set_field_xyz (1, 0);
-   	set_field_xyz (2, 0);
+  gui_clear_field_mode_xyz();
+  gui_clear_field_mode_angle();
+  set_field_mode_xyz(0,0,0);
 }
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // X-Y Camera

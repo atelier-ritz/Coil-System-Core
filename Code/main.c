@@ -20,7 +20,8 @@ int main (int argc, char *argv[])
 	  extern GtkLabel  *labelFPSreceive, *labelFPSreceive_xz;
     extern GtkLabel  *label_info_type, *label_info_plane, *label_info_angle;   // in callbacks.c
     extern GtkLabel  *label_current_temp; // in callbacks.c
-    extern GtkLabel  *label_sampled_area, *label_current_area; // in callbacks.c
+    extern GtkLabel  *label_sampled_area, *label_current_area; // in callbacks.
+    extern GtkWidget *field1_fab, *field2_fab, *field3_fab, *g_field_mag_fab, *xy_3d_fab, *xz_3d_fab;
 
     gtk_init (&argc, &argv);
 
@@ -46,6 +47,13 @@ int main (int argc, char *argv[])
 
     label_sampled_area = GTK_LABEL (gtk_builder_get_object (builder, "label_sampled_area"));
     label_current_area = GTK_LABEL (gtk_builder_get_object (builder, "label_current_area"));
+
+    field1_fab = GTK_WIDGET(gtk_builder_get_object(builder, "field1_fab"));
+    field2_fab = GTK_WIDGET(gtk_builder_get_object(builder, "field2_fab"));
+    field3_fab = GTK_WIDGET(gtk_builder_get_object(builder, "field3_fab"));
+    g_field_mag_fab = GTK_WIDGET(gtk_builder_get_object(builder, "field_mag_fab"));
+    xy_3d_fab = GTK_WIDGET(gtk_builder_get_object(builder, "xy_3d_fab"));
+    xz_3d_fab = GTK_WIDGET(gtk_builder_get_object(builder, "xz_3d_fab"));
 
 	// g_signal_connect(instance, detailed_signal, c_handler, data)
 	// Connects a GCallback function to a signal for a particular object.
