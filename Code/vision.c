@@ -51,11 +51,11 @@ float magnet_area = 0;
 float trust_area = 0;
 bool flag_magnet_sampled = false;
 float Mwidth, Mlength;
-extern float fangle, destination_angle, v1, v2;
-extern float current_temp;
-extern char fab_status[];
-extern char fab_time[];
-extern float field_x, field_y, field_z, field_mag, field_angle;
+// extern float fangle, destination_angle, v1, v2;
+// extern float current_temp;
+// extern char fab_status[];
+// extern char fab_time[];
+// extern float field_x, field_y, field_z, field_mag, field_angle;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Global Functions

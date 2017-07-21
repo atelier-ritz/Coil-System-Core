@@ -5,15 +5,19 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 #include "PageGeneralControl.h"
 
-//field control
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Variables
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 bool coil_3d = true, coil_2d_xz = false;
-float field_mag_fab = 0.0;
+
+// float field_mag_fab = 0.0;
 float field_x = 0.0, field_y = 0.0, field_z = 0.0, field_mag = 0.0, field_angle = 0.0;
-float field_angle_m = 0.0; // field_angle in magnet coordinate
 float factor_x = 5.0964, factor_y = 4.999, factor_z = 5.1677;
 
-void set_factor (int index)
-{
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Functions
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void set_factor (int index) {
 	switch (index) // 1:3D coil system; 0:2D coil system
 	{
 		case 0: coil_3d = true;
@@ -70,6 +74,7 @@ void set_field_mode_xyz(float x,float y,float z) {
 }
 
 void set_field_mode_angle(float mag,float xy,float xz) {
+	// xz stands for the angle between B and its projecion on XY plane here
   float z = mag * sind(xz);
   float y = mag * cosd(xz) * sind(xy);
   float x = mag * cosd(xz) * cosd(xy);

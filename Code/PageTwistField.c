@@ -9,10 +9,10 @@
 // Variables
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // twisting field walking variables
-bool flag_twist_field = false, twisted_walking_go = false, flag_manual_field_loop = false, manual_field_go = false;
-float theta = 0.0, beta = 0.0, omega = 0.0, phi = 0.0, Bmag = 0.0;
-float bx_global = 0.0, by_global = 0.0, bz_global = 0.0, dbx_global = 0.0, dby_global = 0.0, dbz_global = 0.0;
-float bx_old = 0.0, by_old = 0.0, bz_old = 0.0;
+static bool flag_twist_field = false, twisted_walking_go = false, flag_manual_field_loop = false, manual_field_go = false;
+static float theta = 0.0, beta = 0.0, omega = 0.0, phi = 0.0, Bmag = 0.0;
+static float bx_global = 0.0, by_global = 0.0, bz_global = 0.0, dbx_global = 0.0, dby_global = 0.0, dbz_global = 0.0;
+static float bx_old = 0.0, by_old = 0.0, bz_old = 0.0;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Functions
