@@ -7,7 +7,7 @@
 #include <gtk/gtk.h>
 #include "ConstantValue.h"
 #include "s826_subroutine.h"
-#include "coilFieldControl.h"
+#include "Amplifier.h"
 #include <stdio.h>
 #include <math.h>
 

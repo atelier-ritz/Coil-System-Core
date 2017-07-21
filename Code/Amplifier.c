@@ -1,9 +1,9 @@
 ////////////////////////////////////////////////////////////////////////////////////////
-// File      : coilFieldControl.c
+// File      : Amplifier.c
 // Function  : control magnetic fields using s826
 // Edited by :
 ////////////////////////////////////////////////////////////////////////////////////////
-#include "coilFieldControl.h"
+#include "Amplifier.h"
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Global Variables
@@ -50,8 +50,6 @@ int set_coil_current_to (int index, float d) {
             break;
     }
 }
-
-
 
 void set_field_xyz_2 (float bx, float by, float bz, float dbx, float dby, float dbz) {
   s826_aoPin(3, 2, bx*0.18754719386756); //x-right

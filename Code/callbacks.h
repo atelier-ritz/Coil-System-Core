@@ -11,7 +11,6 @@
 #include <gdk/gdkkeysyms.h>
 #include "vision.h"
 #include "s826_subroutine.h"
-// #include "coilFieldControl.h"
 #include "PageTwistField.h"
 #include "PageGeneralControl.h"
 

@@ -4,7 +4,7 @@
 #include "ConstantValue.h"
 #include "s826_subroutine.h"
 #include "vision.h"
-# include "math_subroutine.h"
+#include "math_subroutine.h"
 
 int coilCurrentClear(void);
 int set_coil_current_to (int index, float d);

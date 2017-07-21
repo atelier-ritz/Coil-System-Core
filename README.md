@@ -106,7 +106,7 @@ Update dependent packages. (OpenCV etc?)
 
 callbacks.h: Trigger functions with GUI.
 
-coilFieldControl.h: Relate magnetic fields with the signal from s826 I/O. Calibration of the magnetic field is done here.
+Amplifier.h: Relate magnetic fields with the signal from s826 I/O. Calibration of the magnetic field is done here.
 
 ConstantValue.h: Store constant values.
 
@@ -119,7 +119,7 @@ s826_subroutine.h: s826 I/O control.
 s826api.h: Include file for applications for Sensoray's model 826 board
 
 PageGeneralControl.h: [Page 1] Basic functions
- 
+
 PageTwistField.h: [Page 2] Generates a periodically rotating field.
 
 vision.h: Process of vision and displaying videos on the GUI.
