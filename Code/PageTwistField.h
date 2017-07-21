@@ -1,3 +1,8 @@
+////////////////////////////////////////////////////////////////////////////////////////
+// File      : PageTwistField.h
+// Function  : Tab: twisted walking
+// Edited by : Omid
+////////////////////////////////////////////////////////////////////////////////////////
 // #ifndef TEMPFEEDINGTWIST
 // #define TEMPFEEDINGTWIST
 
@@ -7,12 +12,9 @@
 
 #include <pthread.h>
 #include <gtk/gtk.h>
-#include "constantValue.h"     // Values of the constants used
-#include "s826_subroutine.h"   // s826 board subroutines
-
-#include "vision.h"            // Camera related subroutines
-#include "coilFieldControl.h"
-#include "GeneralControl.h"
+#include "s826_subroutine.h"
+#include "vision.h"
+#include "PageGeneralControl.h"
 // #include "AccelStepper.h"
 #include <stdio.h>
 #include <math.h>

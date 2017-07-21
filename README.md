@@ -114,7 +114,7 @@ callbacks.h: Trigger functions with GUI.
 
 coilFieldControl.h: Relate magnetic fields with the signal from s826 I/O. Calibration of the magnetic field is done here.
 
-constantValue.h: Store constant values.
+DataConstantValue.h: Store constant values.
 
 FWcamera.h: [c++] A class that handles cameras.
 

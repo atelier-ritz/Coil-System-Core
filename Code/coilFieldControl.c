@@ -10,8 +10,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static float coil_current_voltage[3] = {0,0,0};  //static float coil_current_x = 0, coil_current_y = 0, coil_current_z = 0;
 
-int coilCurrentClear(void)
-{
+int coilCurrentClear(void) {
     uint rangeCode = 2;   // 2: -5 ~ +5 V.
     coil_current_voltage[0] = 0;
     coil_current_voltage[1] = 0;
@@ -70,7 +69,7 @@ void resetCoils(void) {
 }
 
 /* Get current coil current control voltage value */
-float get_coil_current(int index){
+float get_coil_current(int index) {
     float returnValue = 0;
     if ( (index > 2) || (index < 0) )
         printf("Error in get_coil_current.\n");

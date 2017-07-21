@@ -17,7 +17,7 @@
 
 #include <sys/time.h>
 #include "FWcamera.h"
-#include "constantValue.h"
+#include "DataGlobalVariables.h"
 
 using namespace cv;
 

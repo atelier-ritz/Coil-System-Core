@@ -8,10 +8,10 @@
 
 #include <pthread.h>
 #include <gtk/gtk.h>
-#include "constantValue.h"
+#include "DataConstantValue.h"
 #include "s826_subroutine.h"
 #include "vision.h"
-#include "GeneralControl.h"
+#include "PageGeneralControl.h"
 #include "coilFieldControl.h"
 // #include "AccelStepper.h"
 #include <stdio.h>

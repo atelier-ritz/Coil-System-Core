@@ -78,7 +78,7 @@ float peak_angle_st = -30.0;
 bool coil_3d = true, coil_2d_xz = false;
 // float factor_x = 5.0964, factor_y = 4.999, factor_z = 5.1677;
 float field_mag_fab = 0.0;
-float field_x = 0.0, field_y = 0.0, field_z = 0.0, field_mag = 0.0, field_angle = 0.0;
+// float field_x = 0.0, field_y = 0.0, field_z = 0.0, field_mag = 0.0, field_angle = 0.0;
 //
 // // pin assignments for motor driver
 // const int enablePin = 0;

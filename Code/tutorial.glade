@@ -490,24 +490,7 @@
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkComboBox" id="cb_coil_selection">
-                                    <property name="visible">True</property>
-                                    <property name="can_focus">False</property>
-                                    <property name="model">ls_coil_selection</property>
-                                    <property name="active">0</property>
-                                    <signal name="changed" handler="on_cb_coil_selection_changed" swapped="no"/>
-                                    <child>
-                                      <object class="GtkCellRendererText" id="cellrenderertext1"/>
-                                      <attributes>
-                                        <attribute name="text">0</attribute>
-                                      </attributes>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">True</property>
-                                    <property name="fill">True</property>
-                                    <property name="position">1</property>
-                                  </packing>
+                                  <placeholder/>
                                 </child>
                                 <child>
                                   <object class="GtkButton" id="reset_field_button">
@@ -1733,7 +1716,7 @@
                       <object class="GtkLabel" id="Micro_Fab_Tab">
                         <property name="visible">True</property>
                         <property name="can_focus">False</property>
-                        <property name="label" translatable="yes">Coil Control</property>
+                        <property name="label" translatable="yes">General Control</property>
                       </object>
                       <packing>
                         <property name="tab_fill">False</property>
