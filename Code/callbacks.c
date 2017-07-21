@@ -108,14 +108,14 @@ static gboolean update_cameraImageInfoLabel (gpointer userdata)
     return G_SOURCE_REMOVE;
 }
 
-static gboolean update_current_temp (gpointer userdata)
-{
-    char temp[8];
-    float d = get_current_temp();
-    sprintf(temp, "%6.1f", d);
-    gtk_label_set_text (label_current_temp, temp);
-    return G_SOURCE_REMOVE;
-}
+// static gboolean update_current_temp (gpointer userdata)
+// {
+//     char temp[8];
+//     float d = get_current_temp();
+//     sprintf(temp, "%6.1f", d);
+//     gtk_label_set_text (label_current_temp, temp);
+//     return G_SOURCE_REMOVE;
+// }
 
 static gboolean draw_field (gpointer userdata)
 {
@@ -391,8 +391,8 @@ void on_window_destroy (GtkWidget *widget, gpointer data)
     coilCurrentClear();                // Reset coil current to 0
     usleep(5e4);
 
-    stop_auto_feeding();
-    stop_temp_control();
+    // stop_auto_feeding();
+    // stop_temp_control();
     s826_close();                      // Close s826 board
 
 	usleep(2e5); //wait for all loops to detect shutdown and end themselves
@@ -702,12 +702,6 @@ void on_peak_angle_st_changed (GtkEditable *editable, gpointer user_data)
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
 	//printf("peak_angle_st set to %.1f units\n", d );
 	set_peak_angle_st(d);
-}
-
-// field control callbacks
-void on_cb_coil_selection_changed(GtkComboBox *combo_box, gpointer user_data) {
-    int d = gtk_combo_box_get_active (combo_box);
-    set_factor(d); // d=1, 3D coil system; d=0 2D coil system
 }
 
 // <simple control> module - Tianqi

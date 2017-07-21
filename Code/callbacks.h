@@ -14,9 +14,7 @@
 #include "coilFieldControl.h"
 #include "AutoFabrication.h"
 #include "twistField.h"
-
-//extern Mat img_m_color;
-//using namespace std;
+#include "GeneralControl.h"
 
 void* controlThread(void*);
 void* drawThread(void*);
