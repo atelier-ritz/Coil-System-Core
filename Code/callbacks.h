@@ -12,7 +12,6 @@
 #include "vision.h"
 #include "s826_subroutine.h"
 // #include "coilFieldControl.h"
-// #include "AutoFabrication.h"
 #include "PageTwistField.h"
 #include "PageGeneralControl.h"
 

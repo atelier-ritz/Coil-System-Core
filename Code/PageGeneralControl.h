@@ -5,8 +5,7 @@
 ////////////////////////////////////////////////////////////////////////////////////////
 #include <pthread.h>
 #include <gtk/gtk.h>
-#include "DataConstantValue.h"
-#include "DataGlobalVariables.h"
+#include "ConstantValue.h"
 #include "s826_subroutine.h"
 #include "coilFieldControl.h"
 #include <stdio.h>

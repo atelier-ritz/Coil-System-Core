@@ -6,7 +6,7 @@
 #ifndef S826_SUBROUTINE_H
 #define S826_SUBROUTINE_H
 
-#include "826api.h"
+#include "s826api.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>

@@ -104,17 +104,11 @@ Update dependent packages. (OpenCV etc?)
 
 ## List of files
 
-826api.h: Include file for applications for Sensoray's model 826 board
-
-AccelStepper.h: Arduino AccelStepper library. It provides an object-oriented interface for 2, 3 or 4 pin stepper motors. It is modified to control the amplifier driver.
-
-AutoFabrication.h: [Zhe] Provides basic methods for magnatic field manipulation.
-
 callbacks.h: Trigger functions with GUI.
 
 coilFieldControl.h: Relate magnetic fields with the signal from s826 I/O. Calibration of the magnetic field is done here.
 
-DataConstantValue.h: Store constant values.
+ConstantValue.h: Store constant values.
 
 FWcamera.h: [c++] A class that handles cameras.
 
@@ -122,6 +116,10 @@ math_subroutine.h: Mathematical functions.
 
 s826_subroutine.h: s826 I/O control.
 
-twistField.h: [Omid] Generates a periodically rotating field.
+s826api.h: Include file for applications for Sensoray's model 826 board
+
+PageGeneralControl.h: [Page 1] Basic functions
+ 
+PageTwistField.h: [Page 2] Generates a periodically rotating field.
 
 vision.h: Process of vision and displaying videos on the GUI.

@@ -492,9 +492,6 @@ void on_manual_field_enabler_toggled (GtkToggleButton *togglebutton, gpointer da
   }
 }
 
-
-
-
 void on_theta_heading_changed (GtkEditable *editable, gpointer user_data)
 {
     float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
@@ -563,148 +560,8 @@ void on_dbz_mag_changed (GtkEditable *editable, gpointer user_data)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Magnet Detection Callbacks -- Zhe
+// Page General Control --- Tianqi
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// sinusoidal field (2d) thread functions
-void on_sinusoidal_field_toggled (GtkToggleButton *togglebutton, gpointer data) // whether to generate a sinusoidal field
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-	if (d == 1) { //toggled up
-		init_sinusoidal_field();   // AutoFabrication.c
-	}else{
-		stop_sinusoidal_field();
-	}
-}
-
-void on_fab_heading_s_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("amplitude set to %.1f units\n", d );
-	set_fab_heading_s(d);
-}
-
-void on_fab_amp_s_changed (GtkEditable *editable, gpointer user_data) // change micro-fabrication amplitude
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("amplitude set to %.1f units\n", d );
-	set_fab_amp_s(d);
-}
-
-void on_fab_fre_s_changed (GtkEditable *editable, gpointer user_data) // change micro-fabrication frequency
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("frequency set to %.1f units\n", d );
-	set_fab_fre_s(d);
-}
-
-void on_sinusoidalfield_go_toggled (GtkToggleButton *togglebutton, gpointer data) // sinusoidal field go/stop toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("rotational field_go toggled to %i\n", d );
-	set_sinusoidalfield_go(d);
-}
-
-// rotational field (vertical) thread functions
-void on_rotational_field_toggled (GtkToggleButton *togglebutton, gpointer data) // whether to generate a rotational field
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d==1) //if button is toggled up
-	{
-		init_rotational_field();   // coilFieldControl.c
-	}
-	else
-	{
-		stop_rotational_field();
-	}
-}
-
-void on_fab_heading_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("amplitude set to %.1f units\n", d );
-	set_fab_heading(d);
-}
-
-void on_fab_amp_changed (GtkEditable *editable, gpointer user_data) // change micro-fabrication amplitude
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("amplitude set to %.1f units\n", d );
-	set_fab_amp(d);
-}
-
-void on_fab_fre_changed (GtkEditable *editable, gpointer user_data) // change micro-fabrication frequency
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("frequency set to %.1f units\n", d );
-	set_fab_fre(d);
-}
-
-void on_rotationalfield_go_toggled (GtkToggleButton *togglebutton, gpointer data) // rotational field go/stop toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("rotational field_go toggled to %i\n", d );
-	set_rotationalfield_go(d); //set rotational field_go variable in AutoFabrication.c
-}
-
-// rotational field (horizontal) thread functions
-void on_rotational_field_h_toggled (GtkToggleButton *togglebutton, gpointer data) // whether to generate a rotational field
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d==1) //if button is toggled up
-	{
-		init_rotational_field_h();   // AutoFabrication.c
-	}
-	else
-	{
-		stop_rotational_field_h();
-	}
-}
-
-void on_fab_heading_h_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	set_fab_heading_h(d);
-}
-
-void on_rotationalfield_go_h_toggled (GtkToggleButton *togglebutton, gpointer data) // rotational field go/stop toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("rotational field_go toggled to %i\n", d );
-	set_rotationalfield_go_h(d); //set rotational field_go variable in coilFieldControl.c
-}
-
-// sawtooth mode thread functions
-void on_sawtooth_mode_toggled (GtkToggleButton *togglebutton, gpointer data) // whether to perform sawtooth mode
-{
-    int d = gtk_toggle_button_get_active(togglebutton);
-
-	if(d==1) //if button is toggled up
-	{
-		init_sawtooth_mode();   // AutoFabrication.c
-	}
-	else
-	{
-		stop_sawtooth_mode();
-	}
-}
-
-void on_sawtooth_go_toggled (GtkToggleButton *togglebutton, gpointer data) // sawtooth field go/stop toggle button
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	//printf("sawtooth_go toggled to %i\n", d );
-	set_sawtooth_go(d); //set sawtooth_go variable in AutoFabrication.c
-}
-
-void on_peak_angle_st_changed (GtkEditable *editable, gpointer user_data)
-{
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	//printf("peak_angle_st set to %.1f units\n", d );
-	set_peak_angle_st(d);
-}
-
-// <simple control> module - Tianqi
 static void gui_clear_field_mode_xyz (void) {
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(field1_fab), 0.0);
     gtk_spin_button_set_value(GTK_SPIN_BUTTON(field2_fab), 0.0);

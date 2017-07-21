@@ -12,22 +12,26 @@
 #include <pthread.h>
 #include <opencv/cv.h>
 #include <opencv/highgui.h>
-//#include <math.h>
-//#include <vector>
 
 #include <sys/time.h>
 #include "FWcamera.h"
-#include "DataGlobalVariables.h"
 
 using namespace cv;
 
-extern GtkImage *videoWindow, *videoWindow2;
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Global Variables
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// defined in GeneralControl.c
+extern float factor_x, factor_y, factor_z;
+extern float field_x, field_y, field_z, field_mag, field_angle;
 
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Edited by Jiachen
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// defined in callbacks.c
+extern GtkImage  *videoWindow, *videoWindow2;
+
 extern Point centerP;
-
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Functions
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 Mat getImage(void);                 // Get the image to display on the vidWin1
 Mat getImage2(void);                // Get the image to display on the vidWin2
 
@@ -38,6 +42,7 @@ void* FPSprint_xz(void*);
 void* visionThread(void*);
 void* visionThread_xz(void*);
 
+// X-Y Camera1
 GdkPixbuf *convertOpenCv2Gtk(IplImage *image);
 void set_edgemap(int);
 void set_binary(int);
@@ -50,7 +55,7 @@ void setdetect_vision(int);
 void setcannyLow_vision(int);
 void setcannyHigh_vision(int);
 
-// X-Z Camera
+// X-Z Camera2
 void setTopCam_vision(int d);
 void set_edgemap_xz(int);
 void set_binary_xz(int);

@@ -19,6 +19,9 @@
 #include <stdio.h>
 #include <math.h>
 
+// defined in GeneralControl.c
+extern float factor_x, factor_y, factor_z;
+extern float field_x, field_y, field_z, field_mag, field_angle;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Function Declaration

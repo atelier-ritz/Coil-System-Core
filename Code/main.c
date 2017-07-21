@@ -15,6 +15,8 @@ int main (int argc, char *argv[])
 
     GtkBuilder *builder;
     GtkWidget  *window;
+
+    // defined in callbacks.c
     extern GtkWidget *field_drawingArea;
 	  extern GtkImage  *videoWindow, *videoWindow2;
 	  extern GtkLabel  *labelFPSreceive, *labelFPSreceive_xz;
