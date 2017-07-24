@@ -156,15 +156,13 @@ void* visionThread(void*) {
 
 		while(!killVisionThread) {																									//repeat vision loop until we set killVisionthread=1 using stopVision()
 				gettimeofday(&tStart, NULL);
-				//usleep(6e4); 																													//slow down vision thread
+				//usleep(6e4); 																													//slow down vision thread; this function watis for a new frame, it takes a long time, so we can do some image processing in this thread
 
-		        																																		// this function watis for a new frame, it takes a long time, so we can do some image processing in this thread
 				inImage = cam.grabAframe(); 																						//unsigned char *inImage;
 				if(inImage == NULL)	{
 					g_print("Error in firewire stream! Reattempting...\n");
 					usleep((int)1e3); 																										// I don't know what the wait delay should be
 				}
-
 				img_m = Mat(height, width, CV_8UC1, inImage); 													//convert to Mat format
 				// opencv image processing
 				if(edgemap == 1) { opencv_edgemap (img_m, cannyLow, cannyHigh, dilater); }						//edge detect
@@ -189,7 +187,6 @@ void* visionThread(void*) {
 				fpsReceive += fpsVec[i];
 				fpsReceive /= 10.0;
 		}																																						//end vision loop due to killVisionthread==1
-
 		cam.stopGrabbingVideo();
 		usleep ((int)1e5); //make sure that ImageProc_xz has closed
 		cam.deinitialize();
@@ -389,7 +386,8 @@ void settopcam_xz_vision(int d)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
+// Set Mouse --- Zhe
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ) //click in pixels
 {
 	switch(whichScreen)
@@ -433,7 +431,7 @@ void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ) //click in pi
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// OpenCV Draw Magnetic Field Indicator   --- Tianqi
+// OpenCV Static Functions   --- Tianqi
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static void draw_xy_magnetic_field (Mat img, float oX, float oY){
 		float r = 40;
@@ -521,7 +519,6 @@ static void opencv_edgemap (Mat img, int cannyLow, int cannyHigh, int dilater) {
 	}
 	//circle( img, MM, 10, Scalar(20,100,255) , -1, 8, 0 );	          // Test Hough circle detection mode
 }
-
 
 static void opencv_detect (Mat img_m, Mat threshold_output, Mat img_m_color, int dilater, int binary) {
 	blur( img_m, threshold_output, Size(4,4) ); 												//blur image to remove small blips etc
