@@ -25,9 +25,10 @@ static Point mouse_xz, mouseC_xz, mouseR_xz;
 int cannyLow = 100, cannyHigh = 150; //thresholds for image processing filter
 static int dilater = 1;
 static int edgemap = 0, binary = 0; //are we performing edgemap calculations?
-int visionParam1 = 65; //for processing. Used in threshold() and houghCircle().
+static int binaryThreshold = 65; //for processing. Used in threshold() and houghCircle().
 int visionParam2 = 35; //for processing
-static int detect = 1; //are we detecting object?
+static int flag3dIndicator = 0, flag2dIndicator = 1;
+
 static float fpsReceive; //frames per second of video
 Mat img_m_color_for_display;
 
@@ -35,9 +36,9 @@ Mat img_m_color_for_display;
 int cannyLow_xz=100, cannyHigh_xz=150;
 static int dilater_xz = 1;
 static int edgemap_xz = 0, binary_xz = 0;
-int visionParam1_xz = 65;
+static int binaryThreshold_xz = 65;
 int visionParam2_xz = 35;
-static int detect_xz = 1;
+static int flag3dIndicatorXZ = 1, flag2dIndicatorXZ = 1;
 static int topcam_on = 1; //is the sidecam capturing? Default: YES
 static float fpsReceive_xz;
 Mat img_m_color_for_display2;
@@ -165,15 +166,16 @@ void* visionThread(void*) {
 				}
 				img_m = Mat(height, width, CV_8UC1, inImage); 													//convert to Mat format
 				// opencv image processing
-				if(edgemap == 1) { opencv_edgemap (img_m, cannyLow, cannyHigh, dilater); }						//edge detect
-				if(detect == 1) { opencv_detect (img_m,threshold_output,img_m_color,dilater,binary); }		//for threshold and bounding box detection
+				if(edgemap == 1) {img_m = opencv_edgemap (img_m.clone(), cannyLow, cannyHigh, dilater);}						//edge detect
+				if(binary == 1) {img_m = opencv_binary (img_m.clone(), binaryThreshold);}		//for threshold and bounding box detection
 				cvtColor(img_m, img_m_color, CV_GRAY2BGR); //convert to color anyways
 				//draw mouse clicks
 				if(mouse.x>0) {	circle( img_m_color, mouse, 4, Scalar(  200, 50, 0), 2, 8, 0 ); }
 				if(mouseR.x>0) { circle( img_m_color, mouseR,4, Scalar( 20, 250, 300 ), 2, 8, 0 ); }
 				if(mouseC.x>0) { circle( img_m_color, mouseC, 4, Scalar( 220, 130, 100 ), 2, 8, 0 ); }
 			  //draw field indicator
-				draw_xz_magnetic_field(img_m_color,580,400);
+				if (flag2dIndicator == 1) {draw_xz_magnetic_field(img_m_color,580,400);}
+				if (flag3dIndicator == 1) {draw_3d_magnetic_field(img_m_color,480,400);}
 				img_m_color_for_display = img_m_color;
 
 				//  Needed for Frame rate calculation of Top camera (xy)
@@ -232,13 +234,12 @@ void* visionThread_xz(void*) {
 
 				img_m_xz = Mat(height, width, CV_8UC1, inImage_xz); 														//convert to Mat format
 				// opencv image processing
-				if(edgemap_xz == 1) { opencv_edgemap (img_m_xz, cannyLow_xz, cannyHigh_xz, dilater_xz); }						//edge detect
-				if(detect_xz == 1) { opencv_detect (img_m_xz,threshold_output_xz,img_m_color_xz,dilater_xz,binary_xz); }			 				//threshold and bounding box detection
+				if(edgemap_xz == 1) {img_m_xz = opencv_edgemap (img_m_xz.clone(), cannyLow_xz, cannyHigh_xz, dilater_xz);}
+				if(binary_xz == 1) {img_m_xz = opencv_binary (img_m_xz.clone(), binaryThreshold_xz);}
 				cvtColor(img_m_xz, img_m_color_xz, CV_GRAY2BGR); 				//convert to color
 				// draw field indicator
-				draw_xy_magnetic_field(img_m_color_xz,580,400);
-				draw_xz_magnetic_field(img_m_color_xz,480,400);
-				draw_3d_magnetic_field(img_m_color_xz,380,400);
+				if (flag2dIndicatorXZ == 1) {draw_xy_magnetic_field(img_m_color_xz,580,400);}
+				if (flag3dIndicatorXZ == 1) {draw_3d_magnetic_field(img_m_color_xz,480,400);}
 				img_m_color_for_display2 = img_m_color_xz;
 
 				gettimeofday(&tEnd_xz, NULL);
@@ -310,13 +311,21 @@ void setDilate_vision(int d)
 {
 	dilater = d; //for image processing on edgemap
 }
-void setvisionParam1_vision(int d)
+void set_binaryThreshold_vision (int d)
 {
-	visionParam1 = d; //for image processing
+	binaryThreshold = d; //for image processing
 }
 void setvisionParam2_vision(int d)
 {
 	visionParam2 = d; //for image processing
+}
+void set_3d_indicator_flag (int d)
+{
+	flag3dIndicator = d;
+}
+void set_2d_indicator_flag (int d)
+{
+	flag2dIndicator = d;
 }
 void setcannyLow_vision(int d)
 {
@@ -325,10 +334,6 @@ void setcannyLow_vision(int d)
 void setcannyHigh_vision(int d)
 {
 	cannyHigh = d; //for image processing
-}
-void setdetect_vision(int d)
-{
-	detect = d; //for image processing
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -359,13 +364,21 @@ void setDilate_xz_vision(int d)
 {
 	dilater_xz = d; //for image processing on edgemap
 }
-void setvisionParam1_xz_vision(int d)
+void set_binaryThreshold_xz_vision(int d)
 {
-	visionParam1_xz = d; //for image processing
+	binaryThreshold_xz = d; //for image processing
 }
 void setvisionParam2_xz_vision(int d)
 {
 	visionParam2 = d; //for image processing
+}
+void set_3d_indicator_xz_flag (int d)
+{
+	flag3dIndicatorXZ = d;
+}
+void set_2d_indicator_xz_flag (int d)
+{
+	flag2dIndicatorXZ = d;
 }
 void setcannyLow_xz_vision(int d)
 {
@@ -374,10 +387,6 @@ void setcannyLow_xz_vision(int d)
 void setcannyHigh_xz_vision(int d)
 {
 	cannyHigh_xz = d; //for image processing
-}
-void setdetect_xz_vision(int d)
-{
-	detect_xz = d; //for image processing
 }
 void settopcam_xz_vision(int d)
 {
@@ -510,7 +519,7 @@ static void draw_3d_magnetic_field (Mat img, float oX, float oY){
 		putText( img, text, textpoint, FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255, 0, 0));
 }
 
-static void opencv_edgemap (Mat img, int cannyLow, int cannyHigh, int dilater) {
+static Mat opencv_edgemap (Mat img, int cannyLow, int cannyHigh, int dilater) {
 	Canny(img, img, cannyLow, cannyHigh, 3 ); //edge detect
 	if(dilater > 0) {																										//if dilater = 0, just use original edgemap
 		dilate( img, img, Mat(), Point(-1, -1), dilater, 1, 1);
@@ -518,22 +527,11 @@ static void opencv_edgemap (Mat img, int cannyLow, int cannyHigh, int dilater) {
 		erode( img, img, Mat(), Point(-1, -1), dilater, 1, 1);
 	}
 	//circle( img, MM, 10, Scalar(20,100,255) , -1, 8, 0 );	          // Test Hough circle detection mode
+	return img;
 }
 
-static void opencv_detect (Mat img_m, Mat threshold_output, Mat img_m_color, int dilater, int binary) {
-	blur( img_m, threshold_output, Size(4,4) ); 												//blur image to remove small blips etc
-	threshold( threshold_output, threshold_output, visionParam1, 255, THRESH_BINARY_INV );
-	//adaptiveThreshold(img_m, threshold_output, 255,	ADAPTIVE_THRESH_MEAN_C, THRESH_BINARY_INV,91,0);
-	if(dilater > 0) {																										//if dilater = 0, just use original edgemap
-			dilate( threshold_output, threshold_output, Mat(), Point(-1, -1), dilater, 1, 1);
-			erode( threshold_output, threshold_output, Mat(), Point(-1, -1), 2*dilater, 1, 1);
-			dilate( threshold_output, threshold_output, Mat(), Point(-1, -1), dilater, 1, 1);
-	}
-	if(binary == 1)	{																											//show binary image, don't do any more processing
-			cvtColor(threshold_output, img_m_color, CV_GRAY2BGR); 						//convert to color
-			gdk_threads_enter();																							//display video image in program window
-			gtk_image_set_from_pixbuf(videoWindow, gdk_pixbuf_new_from_data(img_m_color.data, GDK_COLORSPACE_RGB, false, 8, img_m_color.cols, img_m_color.rows, img_m_color.step, NULL, NULL));
-			gdk_threads_leave();
-			// continue;
-	}
+static Mat opencv_binary (Mat img, int binaryThreshold) {
+	blur( img, img, Size(4,4) ); 												//blur image to remove small blips etc
+	threshold( img, img, binaryThreshold, 255, THRESH_BINARY );
+	return img;
 }

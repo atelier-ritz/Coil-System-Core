@@ -7,7 +7,8 @@
 #include "math_subroutine.h"
 
 int coilCurrentClear(void);
-int set_coil_current_to (int index, float d);
+void set_coil_current_to (int index, float d);
+void set_coil_current_to_2 (float, float, float, float, float, float);
 float get_coil_current(int index);
 void set_field_xyz_2 (float bx, float by, float bz, float dbx, float dby, float dbz);
 void resetCoils(void);

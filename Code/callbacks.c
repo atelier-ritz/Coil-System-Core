@@ -678,22 +678,25 @@ void on_dilate_changed (GtkEditable *editable, gpointer user_data)
 	//printf("dilate changed to %.1f units\n", d );
 	setDilate_vision(d);
 }
-void on_visionParam1_changed (GtkEditable *editable, gpointer user_data)
+void on_binaryThreshold_changed (GtkEditable *editable, gpointer user_data)
 {
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	setvisionParam1_vision(d);
+	int d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
+	set_binaryThreshold_vision(d);
 }
 void on_visionParam2_changed (GtkEditable *editable, gpointer user_data)
 {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
 	setvisionParam2_vision(d);
 }
-void on_detect_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
-	int d = gtk_toggle_button_get_active(togglebutton);
-	setdetect_vision(d);
-}
 
+void on_3d_indicator_toggled (GtkToggleButton *togglebutton, gpointer data) {
+	int d = gtk_toggle_button_get_active(togglebutton);
+	set_3d_indicator_flag (d);
+}
+void on_2d_indicator_toggled (GtkToggleButton *togglebutton, gpointer data) {
+	int d = gtk_toggle_button_get_active(togglebutton);
+	set_2d_indicator_flag (d);
+}
 void on_topcam_on_toggled (GtkToggleButton *togglebutton, gpointer data)
 {
 	int d = gtk_toggle_button_get_active(togglebutton);
@@ -766,21 +769,25 @@ void on_dilate_xz_changed (GtkEditable *editable, gpointer user_data)
 	//printf("dilate changed to %.1f units\n", d );
 	setDilate_xz_vision(d);
 }
-void on_visionParam1_xz_changed (GtkEditable *editable, gpointer user_data)
+void on_binaryThreshold_xz_changed (GtkEditable *editable, gpointer user_data)
 {
-	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
-	setvisionParam1_xz_vision(d);
+	int d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
+	set_binaryThreshold_xz_vision(d);
 }
 void on_visionParam2_xz_changed (GtkEditable *editable, gpointer user_data)
 {
 	float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
 	setvisionParam2_xz_vision(d);
 }
-void on_detect_xz_toggled (GtkToggleButton *togglebutton, gpointer data)
-{
+void on_3d_indicator_xz_toggled (GtkToggleButton *togglebutton, gpointer data) {
 	int d = gtk_toggle_button_get_active(togglebutton);
-	setdetect_xz_vision(d);
+	set_3d_indicator_xz_flag (d);
 }
+void on_2d_indicator_xz_toggled (GtkToggleButton *togglebutton, gpointer data) {
+	int d = gtk_toggle_button_get_active(togglebutton);
+	set_2d_indicator_xz_flag (d);
+}
+
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Catch Mouse Click Event

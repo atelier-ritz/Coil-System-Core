@@ -26,7 +26,7 @@ int coilCurrentClear(void) {
     s826_aoPin( 5 , rangeCode, 0);
 }
 
-int set_coil_current_to (int index, float d) {
+void set_coil_current_to (int index, float d) {
 //  s826_aoPin(aoPin, 2, signal pin voltage output)
 //  * amplifiers running in current mode
 //  aoPin     Cable #              Coil           Comp. mT/V
@@ -54,7 +54,7 @@ int set_coil_current_to (int index, float d) {
     }
 }
 
-void set_field_xyz_2 (float bx, float by, float bz, float dbx, float dby, float dbz) {
+void set_coil_current_to_2 (float bx, float by, float bz, float dbx, float dby, float dbz) {
   s826_aoPin(3, 2, bx*0.18754719386756); //x-right
  	s826_aoPin(0, 2, bx*0.18754719386756); //x-left
 

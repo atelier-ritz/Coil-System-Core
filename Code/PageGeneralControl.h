@@ -13,5 +13,6 @@
 #include "Amplifier.h"
 
 void set_field_xyz (int, float);
+void set_field_xyz_2 (float, float, float, float, float, float);
 void set_field_mode_xyz (float, float, float);
 void set_field_mode_angle (float, float, float);

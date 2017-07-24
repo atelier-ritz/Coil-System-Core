@@ -39,32 +39,26 @@ void set_field_xyz (int index, float d) // indices 123 -> xyz. for 3d, controlle
 {
     switch (index) // 0:x  1:y  2:z
     {
-        case 0: field_x = d; set_coil_current_to (0, d);
+        case 0: field_x = d;
+								set_coil_current_to (0, d);
                 break;
-
-        case 1: if ( !coil_3d & coil_2d_xz )
-                    break;
-                else
-                {
-                    field_y = d;
-                    set_coil_current_to (1, d);
-                    break;
-                }
-
-        case 2: if ( !coil_3d & !coil_2d_xz )
-                    break;
-                else
-                {
-                    field_z = d;
-                    if (coil_3d)
-                        set_coil_current_to (2, d);
-                    else
-                        set_coil_current_to (1, d);
-                    break;
-                }
+        case 1: field_y = d;
+                set_coil_current_to (1, d);
+                break;
+        case 2: field_z = d;
+                set_coil_current_to (2, d);
+                break;
     }
 	field_mag = sqrt( pow(field_x,2) + pow(field_y,2) + pow(field_z,2) ) ;
 	field_angle = atan2(field_z, field_x) * 180.0/M_PI; // atan2() => (-pi, pi]
+}
+
+void set_field_xyz_2 (float bx, float by, float bz, float dbx, float dby, float dbz) {
+	set_coil_current_to_2(bx,by,bz,dbx,dby,dbz);
+	field_x = bx;
+	field_y = by;
+	field_z = bz;
+	field_mag = sqrt( pow(field_x,2) + pow(field_y,2) + pow(field_z,2) ) ;
 }
 
 void set_field_mode_xyz(float x,float y,float z) {

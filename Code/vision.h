@@ -49,9 +49,10 @@ void set_binary(int);
 void setGain_vision(int);
 void setShutter_vision(int);
 void setDilate_vision(int);
-void setvisionParam1_vision(int);
+void set_binaryThreshold_vision (int);
 void setvisionParam2_vision(int);
-void setdetect_vision(int);
+void set_3d_indicator_flag(int);
+void set_2d_indicator_flag(int);
 void setcannyLow_vision(int);
 void setcannyHigh_vision(int);
 
@@ -62,8 +63,10 @@ void set_binary_xz(int);
 void setGain_xz_vision(int);
 void setShutter_xz_vision(int);
 void setDilate_xz_vision(int);
-void setvisionParam1_xz_vision(int);
+void set_binaryThreshold_xz_vision (int);
 void setvisionParam2_xz_vision(int);
+void set_3d_indicator_xz_flag(int);
+void set_2d_indicator_xz_flag(int);
 void setdetect_xz_vision(int);
 void settopcam_xz_vision(int);
 void setcannyLow_xz_vision(int);
@@ -73,8 +76,8 @@ void setcannyHigh_xz_vision(int);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ); //click in pixels
 
-static void opencv_edgemap (Mat, int, int, int); 
-static void opencv_detect (Mat, Mat, Mat, int, int);
+static Mat opencv_edgemap (Mat, int, int, int);
+static Mat opencv_binary (Mat, int);
 static void draw_xy_magnetic_field (Mat,float,float);
 static void draw_xz_magnetic_field (Mat,float,float);
 static void draw_3d_magnetic_field (Mat,float,float);
