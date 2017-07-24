@@ -73,6 +73,8 @@ void setcannyHigh_xz_vision(int);
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ); //click in pixels
 
+static void opencv_edgemap (Mat, int, int, int); 
+static void opencv_detect (Mat, Mat, Mat, int, int);
 static void draw_xy_magnetic_field (Mat,float,float);
 static void draw_xz_magnetic_field (Mat,float,float);
 static void draw_3d_magnetic_field (Mat,float,float);
