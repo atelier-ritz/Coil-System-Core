@@ -45,7 +45,7 @@ Mat img_m_color_for_display2;
 
 // magnet detection variables -- Zhe
 float m_x, m_y, m_a = 0.0, m_x_history[6] = {0,0,0,0,0,0}, m_y_history[6] = {0,0,0,0,0,0}, m_a_history[6] = {0,0,0,0,0,0}; // historical value of magnet centre (m_x, m_y) and angle m_a
-float m_x_temp, m_y_temp, m_a_temp;
+// float m_x_temp, m_y_temp, m_a_temp;
 float magnet_area = 0;
 float trust_area = 0;
 bool flag_magnet_sampled = false;
@@ -175,7 +175,13 @@ void* visionThread(void*) {
 				if(mouseC.x>0) { circle( img_m_color, mouseC, 4, Scalar( 220, 130, 100 ), 2, 8, 0 ); }
 			  //draw field indicator
 				if (flag2dIndicator == 1) {draw_xz_magnetic_field(img_m_color,580,400);}
-				if (flag3dIndicator == 1) {draw_3d_magnetic_field(img_m_color,480,400);}
+				if (flag3dIndicator == 1) {
+					if (currentActiveTabIndex == 1) {
+						draw_3d_magnetic_field_twisted(img_m_color,480,400);
+					}else{
+						draw_3d_magnetic_field(img_m_color,480,400);
+					}
+				}
 				img_m_color_for_display = img_m_color;
 
 				//  Needed for Frame rate calculation of Top camera (xy)
@@ -239,7 +245,13 @@ void* visionThread_xz(void*) {
 				cvtColor(img_m_xz, img_m_color_xz, CV_GRAY2BGR); 				//convert to color
 				// draw field indicator
 				if (flag2dIndicatorXZ == 1) {draw_xy_magnetic_field(img_m_color_xz,580,400);}
-				if (flag3dIndicatorXZ == 1) {draw_3d_magnetic_field(img_m_color_xz,480,400);}
+				if (flag3dIndicatorXZ == 1) {
+					if (currentActiveTabIndex == 1) {
+						draw_3d_magnetic_field_twisted(img_m_color_xz,480,400);
+					}else{
+						draw_3d_magnetic_field(img_m_color_xz,480,400);
+					}
+				}
 				img_m_color_for_display2 = img_m_color_xz;
 
 				gettimeofday(&tEnd_xz, NULL);
@@ -517,6 +529,45 @@ static void draw_3d_magnetic_field (Mat img, float oX, float oY){
 		textpoint.y = oY + 1.5 * r;
 		char text[] = "XYZ";
 		putText( img, text, textpoint, FONT_HERSHEY_SIMPLEX, 0.6, Scalar(255, 0, 0));
+}
+
+static void draw_3d_magnetic_field_twisted (Mat img, float oX, float oY){
+		float r = 40;
+		float axisMajor = 2 * r;
+		float axisMinor = 0.5 * r;
+		float angleXY = atan2(field_y, field_x);
+		float mag = field_mag ? field_mag : 14.0;
+		float magXY = sqrt(pow(field_x,2) + pow(field_y,2));
+		float p = magXY / mag;
+		float fullMag = 14.0; //when field magnitude equals to this value, the end point of the vector is on the sphere
+
+		//draw figure
+		Point startP(oX,oY);
+		Point endP;
+		endP.x = oX + (axisMajor * 0.5) * p * cos(angleXY);
+		endP.y = oY - (axisMinor * 0.5) * p * sin(angleXY) - r * field_z / mag;
+		RotatedRect rRect = RotatedRect(Point2f(oX,oY), Size2f(axisMajor,axisMinor), 0);
+		// RotatedRect rRectXY = RotatedRect(Point2f(oX+r*cosd(phi/2)*sind(beta),
+		// 																					oY-r*cosd(phi/2)*cosd(beta)),
+		// 																	Size2f(axisMajor*sind(phi/2), axisMinor*sind(phi/2)), beta);
+		RotatedRect rRectXY = RotatedRect(Point2f(oX+r*cosd(phi/2)*sind(beta)*cosd(theta),
+																							oY-r*cosd(phi/2)*cosd(beta)-(axisMinor * 0.5) * p *sind(theta)),
+																			Size2f(axisMajor*sind(phi/2), axisMinor*sind(phi/2)),
+																			beta*cosd(theta));
+		line( img, startP, endP, Scalar(255,0,0), 2);
+		ellipse( img, rRect, Scalar(255,0,0));
+		ellipse( img, rRectXY, Scalar(128,128,0));
+		endP.x = oX + (axisMajor * 0.5) * p * cos(angleXY) * (mag / fullMag);
+		endP.y = oY - (axisMinor * 0.5) * p * sin(angleXY) * (mag / fullMag) - r * field_z / fullMag;
+		circle( img, endP, 2, Scalar(255,0,0), 2);
+		circle( img, startP, r, Scalar(255,0,0));
+
+		//put text
+		Point textpoint;
+		textpoint.x = oX - r / 3;
+		textpoint.y = oY + 1.5 * r;
+		char text[] = "XYZ";
+		putText( img, text, textpoint, FONT_HERSHEY_SIMPLEX, 0.6, Scalar(0, 255, 0));
 }
 
 static Mat opencv_edgemap (Mat img, int cannyLow, int cannyHigh, int dilater) {

@@ -15,6 +15,7 @@
 
 #include <sys/time.h>
 #include "FWcamera.h"
+#include "math_subroutine.h"
 
 using namespace cv;
 
@@ -24,7 +25,9 @@ using namespace cv;
 // defined in GeneralControl.c
 extern float factor_x, factor_y, factor_z;
 extern float field_x, field_y, field_z, field_mag, field_angle;
-
+extern int currentActiveTabIndex; //used to change the behavior of the 3d indicator
+// defined in PageTwistField.c
+extern float theta, beta, omega, phi;
 // defined in callbacks.c
 extern GtkImage  *videoWindow, *videoWindow2;
 
@@ -81,6 +84,7 @@ static Mat opencv_binary (Mat, int);
 static void draw_xy_magnetic_field (Mat,float,float);
 static void draw_xz_magnetic_field (Mat,float,float);
 static void draw_3d_magnetic_field (Mat,float,float);
+static void draw_3d_magnetic_field_twisted (Mat,float,float);
 
 
 #endif

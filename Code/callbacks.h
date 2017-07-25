@@ -111,6 +111,8 @@ extern "C" {  //use to fix C++ name mangling problem, when compiling with g++ in
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	gboolean on_videoWindow_button_press_event( GtkWidget *widget, GdkEventButton *event, gpointer data);
 	gboolean on_videoWindow2_button_press_event(GtkWidget *widget, GdkEventButton *event, gpointer data);
+
+  void on_current_tab_changed (GtkNotebook *notebook, GtkNotebookPage *notebook_page, int page, gpointer data);
 }
 
 #endif

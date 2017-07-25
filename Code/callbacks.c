@@ -811,3 +811,9 @@ gboolean on_videoWindow2_button_press_event(GtkWidget *widget, GdkEventButton *e
 	//g_print("Side video window %d click at location [%d %d].\n", button_click, click[0], click[1]);
 	setMouse(1, button_click, click );      //void setMouse(int whichScreen, int whichMouse, int mouseClick[2] ) //click in pixels
 }
+
+void on_current_tab_changed (GtkNotebook *notebook,
+GtkNotebookPage *notebook_page, int page, gpointer data)
+{
+	set_current_tab_page (page);
+}
