@@ -165,14 +165,19 @@ void* visionThread(void*) {
 					usleep((int)1e3); 																										// I don't know what the wait delay should be
 				}
 				img_m = Mat(height, width, CV_8UC1, inImage); 													//convert to Mat format
+				// printf("%d", (unsigned char) inImage);
+				// img_m_color = Mat(height, width, CV_8UC3, Scalar(200,30,0));
+
 				// opencv image processing
 				if(edgemap == 1) {img_m = opencv_edgemap (img_m.clone(), cannyLow, cannyHigh, dilater);}						//edge detect
 				if(binary == 1) {img_m = opencv_binary (img_m.clone(), binaryThreshold);}		//for threshold and bounding box detection
 				cvtColor(img_m, img_m_color, CV_GRAY2BGR); //convert to color anyways
+
 				//draw mouse clicks
 				if(mouse.x>0) {	circle( img_m_color, mouse, 4, Scalar(  200, 50, 0), 2, 8, 0 ); }
 				if(mouseR.x>0) { circle( img_m_color, mouseR,4, Scalar( 20, 250, 300 ), 2, 8, 0 ); }
 				if(mouseC.x>0) { circle( img_m_color, mouseC, 4, Scalar( 220, 130, 100 ), 2, 8, 0 ); }
+
 			  //draw field indicator
 				if (flag2dIndicator == 1) {draw_xz_magnetic_field(img_m_color,580,400);}
 				if (flag3dIndicator == 1) {
@@ -182,6 +187,7 @@ void* visionThread(void*) {
 						draw_3d_magnetic_field(img_m_color,480,400);
 					}
 				}
+				// cvtColor(img_m, img_m_color, CV_GRAY2BGR);
 				img_m_color_for_display = img_m_color;
 
 				//  Needed for Frame rate calculation of Top camera (xy)
@@ -239,10 +245,12 @@ void* visionThread_xz(void*) {
 				}
 
 				img_m_xz = Mat(height, width, CV_8UC1, inImage_xz); 														//convert to Mat format
+
 				// opencv image processing
 				if(edgemap_xz == 1) {img_m_xz = opencv_edgemap (img_m_xz.clone(), cannyLow_xz, cannyHigh_xz, dilater_xz);}
 				if(binary_xz == 1) {img_m_xz = opencv_binary (img_m_xz.clone(), binaryThreshold_xz);}
 				cvtColor(img_m_xz, img_m_color_xz, CV_GRAY2BGR); 				//convert to color
+
 				// draw field indicator
 				if (flag2dIndicatorXZ == 1) {draw_xy_magnetic_field(img_m_color_xz,580,400);}
 				if (flag3dIndicatorXZ == 1) {
@@ -547,13 +555,12 @@ static void draw_3d_magnetic_field_twisted (Mat img, float oX, float oY){
 		endP.x = oX + (axisMajor * 0.5) * p * cos(angleXY);
 		endP.y = oY - (axisMinor * 0.5) * p * sin(angleXY) - r * field_z / mag;
 		RotatedRect rRect = RotatedRect(Point2f(oX,oY), Size2f(axisMajor,axisMinor), 0);
-		// RotatedRect rRectXY = RotatedRect(Point2f(oX+r*cosd(phi/2)*sind(beta),
-		// 																					oY-r*cosd(phi/2)*cosd(beta)),
-		// 																	Size2f(axisMajor*sind(phi/2), axisMinor*sind(phi/2)), beta);
-		RotatedRect rRectXY = RotatedRect(Point2f(oX+r*cosd(phi/2)*sind(beta)*cosd(theta),
-																							oY-r*cosd(phi/2)*cosd(beta)-(axisMinor * 0.5) * p *sind(theta)),
-																			Size2f(axisMajor*sind(phi/2), axisMinor*sind(phi/2)),
-																			beta*cosd(theta));
+		RotatedRect rRectXY = RotatedRect(Point2f(oX+r*cosd(phi/2)*sind(beta),	oY-r*cosd(phi/2)*cosd(beta)),
+																			Size2f(axisMajor*sind(phi/2), axisMinor*sind(phi/2)), beta);
+		// RotatedRect rRectXY = RotatedRect(Point2f(oX+r*cosd(phi/2)*sind(beta)*cosd(theta),
+		// 																					oY-r*cosd(phi/2)*cosd(beta)-(axisMinor * 0.5) * p *sind(theta)),
+		// 																	Size2f(axisMajor*sind(phi/2), axisMinor*sind(phi/2)),
+		// 																	beta*cosd(theta));
 		line( img, startP, endP, Scalar(255,0,0), 2);
 		ellipse( img, rRect, Scalar(255,0,0));
 		ellipse( img, rRectXY, Scalar(128,128,0));
