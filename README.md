@@ -11,7 +11,7 @@
 |3|5|X - Out right|4.879|
 |0|6|X - Out left|5.003|
 |6|7|Not Used|Not Used|
-|7|7|Not Used|Not Used|
+|7|8|Not Used|Not Used|
 
 ![Click here for the image](Images/coil_connection.png)
 
