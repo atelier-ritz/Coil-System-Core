@@ -179,7 +179,7 @@ void* visionThread(void*) {
 				if(mouseC.x>0) { circle( img_m_color, mouseC, 4, Scalar( 220, 130, 100 ), 2, 8, 0 ); }
 
 			  //draw field indicator
-				if (flag2dIndicator == 1) {draw_xz_magnetic_field(img_m_color,580,400);}
+				if (flag2dIndicator == 1) {draw_xy_magnetic_field(img_m_color,580,400);}
 				if (flag3dIndicator == 1) {
 					if (currentActiveTabIndex == 1) {
 						draw_3d_magnetic_field_twisted(img_m_color,480,400);
@@ -252,7 +252,7 @@ void* visionThread_xz(void*) {
 				cvtColor(img_m_xz, img_m_color_xz, CV_GRAY2BGR); 				//convert to color
 
 				// draw field indicator
-				if (flag2dIndicatorXZ == 1) {draw_xy_magnetic_field(img_m_color_xz,580,400);}
+				if (flag2dIndicatorXZ == 1) {draw_xz_magnetic_field(img_m_color_xz,580,400);}
 				if (flag3dIndicatorXZ == 1) {
 					if (currentActiveTabIndex == 1) {
 						draw_3d_magnetic_field_twisted(img_m_color_xz,480,400);
