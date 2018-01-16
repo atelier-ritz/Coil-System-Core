@@ -12,6 +12,7 @@
 #include "vision.h"
 #include "s826_subroutine.h"
 #include "PageTwistField.h"
+#include "PageSwimmer.h"
 #include "PageGeneralControl.h"
 
 void* controlThread(void*);
@@ -76,6 +77,14 @@ extern "C" {  //use to fix C++ name mangling problem, when compiling with g++ in
     void on_dby_mag_changed (GtkEditable *editable, gpointer user_data);
     void on_dbz_mag_changed (GtkEditable *editable, gpointer user_data);
 
+    // swimmer callbacks
+    void on_swm_rotate_mag_changed (GtkEditable *editable, gpointer user_data);
+    void on_swm_rotate_freq_changed (GtkEditable *editable, gpointer user_data);
+    void on_swm_steer_mag_changed (GtkEditable *editable, gpointer user_data);
+    void on_swm_steer_angle_changed (GtkEditable *editable, gpointer user_data);
+    void on_swm_heading_changed (GtkEditable *editable, gpointer user_data);
+    void on_swm_toggled (GtkToggleButton *togglebutton, gpointer data);
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // X-Y Camera
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -88,8 +97,8 @@ extern "C" {  //use to fix C++ name mangling problem, when compiling with g++ in
 	void on_dilate_changed (GtkEditable *editable, gpointer user_data);
 	void on_binaryThreshold_changed (GtkEditable *editable, gpointer user_data);
 	void on_visionParam2_changed (GtkEditable *editable, gpointer user_data);
-  void on_3d_indicator_toggled (GtkToggleButton *togglebutton, gpointer data);
-  void on_2d_indicator_toggled (GtkToggleButton *togglebutton, gpointer data);
+    void on_3d_indicator_toggled (GtkToggleButton *togglebutton, gpointer data);
+    void on_2d_indicator_toggled (GtkToggleButton *togglebutton, gpointer data);
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // X-Z Camera

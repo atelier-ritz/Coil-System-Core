@@ -560,6 +560,43 @@ void on_dbz_mag_changed (GtkEditable *editable, gpointer user_data)
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// Swimmer --- Tianqi
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+void on_swm_rotate_mag_changed (GtkEditable *editable, gpointer user_data){
+    float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
+    set_swm_rotate_mag(d);
+}
+
+void on_swm_rotate_freq_changed (GtkEditable *editable, gpointer user_data){
+    float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
+    set_swm_rotate_freq(d);
+}
+
+void on_swm_steer_mag_changed (GtkEditable *editable, gpointer user_data){
+    float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
+    set_swm_steer_mag(d);
+}
+
+void on_swm_steer_angle_changed (GtkEditable *editable, gpointer user_data){
+    float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
+    set_swm_steer_angle(d);
+}
+
+void on_swm_heading_changed (GtkEditable *editable, gpointer user_data){
+    float d = gtk_spin_button_get_value(GTK_SPIN_BUTTON(editable));
+    set_swm_heading(d);
+}
+
+void on_swm_toggled (GtkToggleButton *togglebutton, gpointer data){
+    int d = gtk_toggle_button_get_active(togglebutton);
+    if(d==1){
+        init_swm_field();
+    }else{
+        stop_swm_field();
+    }
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Page General Control --- Tianqi
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 static void gui_clear_field_mode_xyz (void) {

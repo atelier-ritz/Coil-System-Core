@@ -41,14 +41,14 @@ void set_field_xyz (int index, float d) // indices 123 -> xyz. for 3d, controlle
     switch (index) // 0:x  1:y  2:z
     {
         case 0: field_x = d;
-								set_coil_current_to (0, d);
-                break;
+			set_coil_current_to (0, d);
+            break;
         case 1: field_y = d;
-                set_coil_current_to (1, d);
-                break;
+            set_coil_current_to (1, d);
+            break;
         case 2: field_z = d;
-                set_coil_current_to (2, d);
-                break;
+            set_coil_current_to (2, d);
+            break;
     }
 	field_mag = sqrt( pow(field_x,2) + pow(field_y,2) + pow(field_z,2) ) ;
 	field_angle = atan2(field_z, field_x) * 180.0/M_PI; // atan2() => (-pi, pi]
